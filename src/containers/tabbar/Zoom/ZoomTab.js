@@ -26,12 +26,10 @@ import {
   getWidth,
   noDataImage,
 } from '../../../common/constants';
-import CHeader from '../../../components/common/CHeader';
 import CSafeAreaView from '../../../components/common/CSafeAreaView';
 import FullScreenLoading from '../../../components/common/FullScreenLoading';
-import LoginButton from '../../../components/common/LoginButton';
-import {styles} from '../../../themes';
 import Header from '../../../components/common/header/Header';
+import {styles} from '../../../themes';
 
 export default function ZoomTab() {
   const isFocused = useIsFocused();
