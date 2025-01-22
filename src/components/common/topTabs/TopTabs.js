@@ -4,6 +4,7 @@ import {spacing} from '../../../styles/spacing';
 import {textScale} from '../../../styles/responsiveStyles';
 import {fontNames} from '../../../styles/typography';
 import colors from '../../../styles/colors';
+import {APP_PADDING_HORIZONTAL} from '../../../themes/commonStyle';
 // import {textScale} from '../../../styles/responsiveStyles';
 // import {spacing} from '../../../styles/spacing';
 // import {fontNames} from '../../../styles/typography';
@@ -49,11 +50,12 @@ const TopTab = ({
           tabBarStyle: {
             backgroundColor: backgroundColor ? backgroundColor : colors.white,
             // ...boxShadowLess(),
-            // borderWidth: 1,
             elevation: 0,
-            width: '60%',
+            width: spacing.FULL_WIDTH - APP_PADDING_HORIZONTAL * 2,
             alignSelf: 'center',
-            height: spacing.HEIGHT_50,
+            // height: spacing.HEIGHT_50,
+            marginTop: spacing.MARGIN_20,
+            borderRadius: spacing.RADIUS_12,
           },
           tabBarContentContainerStyle: {},
           tabBarItemStyle: {},

@@ -7,6 +7,7 @@ import {
   Alert,
   FlatList,
   Image,
+  Linking,
   RefreshControl,
   StyleSheet,
   Text,
@@ -338,6 +339,9 @@ export default function ZoomTab() {
       setLoader(false);
     }
   };
+  function onPressJoin(meeting_url) {
+    Linking.openURL(meeting_url);
+  }
 
   return (
     <CSafeAreaView style={styles.flex}>
@@ -369,12 +373,13 @@ export default function ZoomTab() {
                     onRefresh={onRefresh}
                   />
                 }
+                keyExtractor={(index, item) => String(index)}
                 renderItem={({item: mainItem, index}) => {
                   return (
                     <View
-                      key={`${index}${JSON.stringify(mainItem)}`}
+                      key={`${index}${mainItem.id}`}
                       style={{
-                        width: '100%',
+                        // width: '100%',
                         backgroundColor: 'white',
                         //backgroundColor: colors.inputBg,
                         elevation: 2,
@@ -462,8 +467,9 @@ export default function ZoomTab() {
                           </Text>
                         </Text>
                         <TouchableOpacity
-                          onPress={() =>
-                            generateJWTToken(mainItem.meeting_id, mainItem.id)
+                          onPress={
+                            () => onPressJoin(mainItem.meeting_url)
+                            // generateJWTToken(mainItem.meeting_id, mainItem.id)
                           }
                           style={{
                             marginTop: 10,

@@ -46,15 +46,18 @@ export default function TabBarNavigation() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: colors?.backgroundColor,
+          backgroundColor: colors.backgroundColor,
           // backgroundColor: '#6439FF',
           // backgroundColor: '#F5F5F5',
           // backgroundColor: '#161D6F',
           // backgroundColor: 'rgba(95, 92, 240, 1)',
-          height: moderateScale(48),
+          height: spacing.HEIGHT_64,
           borderTopLeftRadius: spacing.RADIUS_24,
           borderTopRightRadius: spacing.RADIUS_24,
-          minHeight: spacing.HEIGHT_64,
+          paddingTop: spacing.PADDING_8,
+
+          // minHeight: spacing.HEIGHT_64,
+
           // overflow: 'hidden',
           // shadowColor: '#000000',
           // shadowOffset: {height: -14, width: 1},
@@ -73,7 +76,7 @@ export default function TabBarNavigation() {
         options={{
           tabBarIcon: ({focused}) =>
             focused ? (
-              <View style={styles.itemsCenter}>
+              <View style={[styles.itemsCenter]}>
                 {colors.dark == 'dark' ? (
                   <Home_Dark_Fill_Icon />
                 ) : (

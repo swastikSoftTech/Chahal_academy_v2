@@ -234,13 +234,8 @@ const TestSeriesResult = ({route}) => {
                 </View> */}
                 {/* <TopTabs tabsData={tabData} /> */}
                 {/* ------------------- WRONG AND LEAVE QUESTIONS TAB - STARING ------------------- */}
-                <View
-                  style={{
-                    paddingHorizontal: APP_PADDING_HORIZONTAL,
-                    paddingVertical: spacing.MARGIN_12,
-                    backgroundColor: colors.grey100,
-                  }}>
-                  <View style={styles.questionTabContainer}>
+                <View style={styles.questionTabContainer}>
+                  <View style={styles.questionTabSubContainer}>
                     <RegularText
                       style={[
                         styles.tabTitle,
@@ -261,11 +256,13 @@ const TestSeriesResult = ({route}) => {
                     </RegularText>
                   </View>
                 </View>
-                {/* {questionType === QUESTION_TYPE.WRONG ? (
+                {questionType === QUESTION_TYPE.WRONG ? (
                   <RenderQuestions questions={result?.wrongQuestions} />
                 ) : (
                   <RenderQuestions questions={result?.leaveQuestions} />
-                )} */}
+                )}
+                {/* <TopTabs tabsData={tabData} /> */}
+
                 {/* <FlashList
                   data={
                     questionType === QUESTION_TYPE.WRONG
@@ -336,6 +333,7 @@ const RenderQuestions = ({questions, questionType}) => {
     <FlashList
       data={questions || []}
       decelerationRate="fast"
+      estimatedItemSize={50}
       renderItem={({item: question, index}) => {
         return (
           <View style={[styles.questionContainer]} key={'Question' + index}>
@@ -360,7 +358,7 @@ const RenderQuestions = ({questions, questionType}) => {
             <RegularText style={styles.questionKey}>
               Explaination :{' '}
             </RegularText>
-            <RenderWebView html={question.explaination} index={index} />
+            <RenderWebView html={question?.explaination} index={index} />
           </View>
         );
       }}
@@ -480,9 +478,12 @@ const RenderWebView = ({html, index, isBold}) => {
   `;
 
   const handleQuestionMessage = event => {
+    console.log('clicked');
+
     const height = parseInt(event.nativeEvent.data, 10);
     setWebViewHeight(parseInt(height / 2.8));
   };
+
   return (
     <WebView
       source={{
@@ -580,6 +581,11 @@ const styles = StyleSheet.create({
     gap: spacing.MARGIN_12,
   },
   questionTabContainer: {
+    paddingHorizontal: APP_PADDING_HORIZONTAL,
+    paddingVertical: spacing.MARGIN_12,
+    backgroundColor: colors.grey100,
+  },
+  questionTabSubContainer: {
     ...commonStyle.flexDirectionRow,
     backgroundColor: colors.white,
     padding: spacing.PADDING_6,
@@ -590,7 +596,8 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     borderRadius: spacing.RADIUS_6,
-    fontFamily: fontNames.FONT_PRIMARY_BOLD,
+    fontFamily: fontNames.FONT_PRIMARY_SEMI_BOLD,
+    fontSize: textScale(11),
   },
   selectedTabTitle: {
     color: colors.white,

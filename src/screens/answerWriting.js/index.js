@@ -160,12 +160,12 @@ const AnswerWriting = ({route}) => {
 
   const handleMessage = event => {
     const height = parseInt(event.nativeEvent.data, 10);
-    console.log("height >>>>.",height);
-    
+    console.log('height >>>>.', height);
+
     setWebViewHeight(parseInt(height / 2.4));
   };
   // console.log('comments >>>', comments, date, id);
-console.log("webViewHeight >",webViewHeight);
+  console.log('webViewHeight >', webViewHeight);
 
   const htmlContent = `
       <html>

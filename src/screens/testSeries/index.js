@@ -61,6 +61,7 @@ const TestSeries = ({route}) => {
   const onPressResult = (qId, attempt, type) => {
     navigation.navigate(SCREEN_TEST_SERIES_RESULT, {qId, attempt, type});
   };
+
   return (
     <View style={styles.mainContainer}>
       <Header title={courseName} hideBack={false} />
@@ -74,7 +75,7 @@ const TestSeries = ({route}) => {
               start={{x: 0.5, y: 0}}
               end={{x: 0, y: 0.5}}
               style={styles.testCategoryContainer}>
-              <RegularText style={styles.title}>Ncert Test Series</RegularText>
+              <RegularText style={styles.title}>{courseName}</RegularText>
               <Image source={ImagePaths.ABOUT} style={styles.aboutIcon} />
             </LinearGradient>
           </TouchableOpacity>

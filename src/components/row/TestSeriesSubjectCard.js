@@ -31,7 +31,9 @@ const TestSeriesSubjectCard = ({course, index, onPressTestSeriesSubject}) => {
             }>{`${course.count?.testSeries} Test Series`}</RegularText>
         </View>
         <View>
-          <RegularText style={styles.progressText}>75% Complete</RegularText>
+          <RegularText style={styles.progressText}>{`${parseInt(
+            progress,
+          )}% Complete`}</RegularText>
           <View style={styles.progressBarContainer}>
             <View style={[styles.progress, {width: `${progress}%`}]} />
           </View>
