@@ -77,9 +77,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.chahal_academy_lms"
+    namespace "com.chahalacademy_ias_upsc_pcs"
     defaultConfig {
-        applicationId "com.chahal_academy_lms"
+        applicationId "com.chahalacademy_ias_upsc_pcs"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -112,6 +112,13 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation 'com.airbnb.android:lottie:$lottieVersion'
     implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.17.11.20433'
+
+    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
+    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
+    }
+
+    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {

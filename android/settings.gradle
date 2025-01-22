@@ -4,3 +4,5 @@ extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autoli
 rootProject.name = 'chahal_academy_lms'
 include ':app'
 includeBuild('../node_modules/@react-native/gradle-plugin')
+include ':mobilertc'
+include ':commonlib'    

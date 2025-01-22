@@ -51,7 +51,7 @@
     "react-native-skeleton-placeholder": "^5.2.4",
     "react-native-svg": "^15.11.1",
     "react-native-webview": "^13.13.1",
-    "react-native-zoom-us": "^9.0.0",
+    "react-native-zoom-us": "^8.0.1",
     "react-redux": "^9.2.0",
     "redux": "^5.0.1",
     "rn-fetch-blob": "^0.12.0",
