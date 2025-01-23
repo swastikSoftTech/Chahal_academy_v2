@@ -62,7 +62,7 @@ const TestSeriesFolder = ({route}) => {
         <FullScreenLoading isLoading={isTestSeriesCourseSubmoduleLoading} />
       ) : (
         <>
-          <TouchableOpacity onPress={onPressTestCategory}>
+          {/* <TouchableOpacity onPress={onPressTestCategory}>
             <LinearGradient
               colors={['#d418a0', '#ec3a7c', '#ffcc00']}
               start={{x: 0.5, y: 0}}
@@ -71,7 +71,7 @@ const TestSeriesFolder = ({route}) => {
               <RegularText style={styles.title}>Ncert Test Series</RegularText>
               <Image source={ImagePaths.ABOUT} style={styles.aboutIcon} />
             </LinearGradient>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <View style={styles.seconderyContainer}>
             <TestSeriesList
               testSeriesData={testSeriesRes?.message || []}

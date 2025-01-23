@@ -305,7 +305,7 @@ const StartTest = ({route}) => {
         </TouchableOpacity>
       </View>
       {questions.length ? (
-        <View style={{flex: 1}}>
+        // <View style={{flex: 1}}>
           <Questions
             questions={questions}
             onOptionSelect={handleOptionSelect}
@@ -317,7 +317,7 @@ const StartTest = ({route}) => {
             setCurrentPagerIndex={setCurrentPagerIndex}
             answers={testAttempt}
           />
-        </View>
+        // {/* </View> */}
       ) : null}
       {questions.length ? (
         <View style={styles.footerContainer}>

@@ -26,6 +26,7 @@ import {logoutUser} from '../../utils/commonFunction';
 import CHeader from '../common/CHeader';
 import FullScreenLoading from '../common/FullScreenLoading';
 import LoginButton from '../common/LoginButton';
+import Header from '../common/header/Header';
 
 const SubjectVideos = () => {
   const navigation = useNavigation();
@@ -164,11 +165,12 @@ const SubjectVideos = () => {
       <FullScreenLoading isLoading={isLoading} />
       {userDetails?.isUserLoggedIn ? (
         <View style={{flex: 1}}>
-          <CHeader
+          {/* <CHeader
             title={route.params.courseSlug}
             isHideBack={false}
             customTextStyle={localStyles.headerText}
-          />
+          /> */}
+          <Header title={'Live Classes'}  />
           {/* <View style={{padding: 10}}> */}
           <FlatList
             data={subjectVideos?.data}

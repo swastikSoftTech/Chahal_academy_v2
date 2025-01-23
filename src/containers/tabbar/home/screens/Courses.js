@@ -16,6 +16,7 @@ import {customRequest} from '../../../../api/customRequest';
 import LoginButton from '../../../../components/common/LoginButton';
 import FullScreenLoading from '../../../../components/common/FullScreenLoading';
 import {logoutUser} from '../../../../utils/commonFunction';
+import Header from '../../../../components/common/header/Header';
 
 const Courses = ({route}) => {
   // console.log('previous', route.params.title, route.params.data);
@@ -83,19 +84,12 @@ const Courses = ({route}) => {
     return <CourseCard item={item} index={index} courseSlug={courseSlug} />;
   };
 
-  // const navigateToCourseDetail = () => {
-  //   navigation.navigate(StackNav.SubjectVideos, { BtnTitle: strings.enrollNow });
-  // };
   return (
     <CSafeAreaView style={localStyles.root}>
       <FullScreenLoading isLoading={isLoading} />
       {userDetails?.isUserLoggedIn ? (
         <View>
-          <CHeader
-            title={title}
-            isHideBack={false}
-            customTextStyle={localStyles.headerText}
-          />
+          <Header  title={title}/>
           {courseList.map((data, index) => {
             courseSlug = data.courseSlug;
             return (

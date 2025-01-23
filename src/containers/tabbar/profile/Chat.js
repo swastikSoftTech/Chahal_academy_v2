@@ -1,21 +1,23 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useIsFocused} from '@react-navigation/native';
-import {encode} from 'base-64';
+import { useIsFocused } from '@react-navigation/native';
+import { encode } from 'base-64';
 import LottieView from 'lottie-react-native';
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import WebView from 'react-native-webview';
-import {useSelector} from 'react-redux';
-import {customRequest} from '../../../api/customRequest';
-import {getWidth, moderateScale} from '../../../common/constants';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import RenderHTML from 'react-native-render-html';
+import { useSelector } from 'react-redux';
+import { customRequest } from '../../../api/customRequest';
+import { getWidth, moderateScale } from '../../../common/constants';
 import CHeader from '../../../components/common/CHeader';
 import CSafeAreaView from '../../../components/common/CSafeAreaView';
 import FullScreenLoading from '../../../components/common/FullScreenLoading';
 import LoginButton from '../../../components/common/LoginButton';
-import {styles} from '../../../themes';
-import {logoutUser} from '../../../utils/commonFunction';
+import { styles } from '../../../themes';
+import { logoutUser } from '../../../utils/commonFunction';
+import { spacing } from '../../../styles/spacing';
+import WebView from 'react-native-webview';
 
-const Chat = ({navigation}) => {
+const Chat = ({ navigation }) => {
   const isFocused = useIsFocused();
   const colors = useSelector(state => state.theme.theme);
   const userDetails = useSelector(state => state.USER_SLICE);
@@ -39,12 +41,6 @@ const Chat = ({navigation}) => {
     setIsLoading(false);
   };
 
-  // const teacherListApi = () => {
-  //   customRequest('student/teacher/list', 'GET').then(res => {
-  //     console.log('teacherListApi', res);
-  //     setTeacherListData(res);
-  //   });
-  // };
 
   useEffect(() => {
     if (isFocused) {

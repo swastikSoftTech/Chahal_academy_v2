@@ -1,7 +1,7 @@
-import {FlashList} from '@shopify/flash-list';
-import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {PieChart} from 'react-native-gifted-charts';
+import { FlashList } from '@shopify/flash-list';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { PieChart } from 'react-native-gifted-charts';
 import WebView from 'react-native-webview';
 import FullScreenLoading from '../../components/common/FullScreenLoading';
 import Image from '../../components/common/Image';
@@ -15,11 +15,12 @@ import {
 } from '../../redux/apis/testSeries.api';
 import colors from '../../styles/colors';
 import commonStyle from '../../styles/commonStyles';
-import {textScale} from '../../styles/responsiveStyles';
-import {spacing} from '../../styles/spacing';
-import {fontNames} from '../../styles/typography';
-import {APP_PADDING_HORIZONTAL} from '../../themes/commonStyle';
-import {ImagePaths} from '../../utils/imagePaths';
+import { textScale } from '../../styles/responsiveStyles';
+import { spacing } from '../../styles/spacing';
+import { fontNames } from '../../styles/typography';
+import { APP_PADDING_HORIZONTAL } from '../../themes/commonStyle';
+import { ImagePaths } from '../../utils/imagePaths';
+import RenderHTML from 'react-native-render-html';
 
 const QUESTION_TYPE = {
   WRONG: 'WRONG',
@@ -29,11 +30,11 @@ const QUESTION_TYPE = {
 const CHART_RADIOUS =
   spacing.FULL_WIDTH / 2 - APP_PADDING_HORIZONTAL * 4 - spacing.PADDING_12 * 5;
 
-const TestSeriesResult = ({route}) => {
-  const {params} = route;
-  const {qId, attempt, type} = params;
+const TestSeriesResult = ({ route }) => {
+  const { params } = route;
+  const { qId, attempt, type } = params;
 
-  const attemptsArr = Array.from({length: attempt}, (_, index) => index + 1);
+  const attemptsArr = Array.from({ length: attempt }, (_, index) => index + 1);
 
   const [selectedAttempt, setSelectedAttempt] = useState(1);
   const [result, setResult] = useState(); // common result state for types of result
@@ -42,7 +43,7 @@ const TestSeriesResult = ({route}) => {
 
   const [
     getResults,
-    {data: resultsRes, isFetching: isResultResLoading, error: resultsError},
+    { data: resultsRes, isFetching: isResultResLoading, error: resultsError },
   ] = useLazyGetTestSeriesResultsQuery();
   const [
     getSingleResult,
@@ -88,8 +89,8 @@ const TestSeriesResult = ({route}) => {
 
   useEffect(() => {
     // conditionaly fetching result as per type
-    if (type == '1') getResults({id: qId, attempt: selectedAttempt});
-    else getSingleResult({id: qId, attempt: selectedAttempt});
+    if (type == '1') getResults({ id: qId, attempt: selectedAttempt });
+    else getSingleResult({ id: qId, attempt: selectedAttempt });
   }, [selectedAttempt]);
 
   useEffect(() => {
@@ -130,7 +131,7 @@ const TestSeriesResult = ({route}) => {
     },
   ];
   return (
-    <View style={{flex: 1, backgroundColor: colors.grey100}}>
+    <View style={{ flex: 1, backgroundColor: colors.grey100 }}>
       <Header title={'Results'} hideBack={false} />
       {/* ------------------- ATTEMPTS HORIZONTAL LIST - STARTING ------------------- */}
       <View>
@@ -142,16 +143,16 @@ const TestSeriesResult = ({route}) => {
                 key={attempt}
                 style={[
                   styles.attemptContainer,
-                  index == 0 && {marginLeft: APP_PADDING_HORIZONTAL},
+                  index == 0 && { marginLeft: APP_PADDING_HORIZONTAL },
                   index + 1 == attemptsArr.length && {
                     marginRight: APP_PADDING_HORIZONTAL,
                   },
-                  selectedAttempt == attempt && {backgroundColor: colors.theme},
+                  selectedAttempt == attempt && { backgroundColor: colors.theme },
                 ]}>
                 <RegularText
                   style={[
                     styles.attemptNumber,
-                    selectedAttempt == attempt && {color: colors.white},
+                    selectedAttempt == attempt && { color: colors.white },
                   ]}>
                   Attempt {attempt}
                 </RegularText>
@@ -168,8 +169,8 @@ const TestSeriesResult = ({route}) => {
         <>
           {
             error?.originalStatus === 210 ||
-            error?.originalStatus === 500 ||
-            result?.totalAttempt == 0 ? (
+              error?.originalStatus === 500 ||
+              result?.totalAttempt == 0 ? (
               <View style={styles.notDataContainer}>
                 <Image
                   source={ImagePaths.NOT_FOUND}
@@ -240,7 +241,7 @@ const TestSeriesResult = ({route}) => {
                       style={[
                         styles.tabTitle,
                         questionType === QUESTION_TYPE.WRONG &&
-                          styles.selectedTabTitle,
+                        styles.selectedTabTitle,
                       ]}
                       onPress={() => setQuestionType(QUESTION_TYPE.WRONG)}>
                       Wrong Questions
@@ -249,7 +250,7 @@ const TestSeriesResult = ({route}) => {
                       style={[
                         styles.tabTitle,
                         questionType === QUESTION_TYPE.LEAVE &&
-                          styles.selectedTabTitle,
+                        styles.selectedTabTitle,
                       ]}
                       onPress={() => setQuestionType(QUESTION_TYPE.LEAVE)}>
                       Unattempted Questions
@@ -328,13 +329,13 @@ const TestSeriesResult = ({route}) => {
   );
 };
 
-const RenderQuestions = ({questions, questionType}) => {
+const RenderQuestions = ({ questions, questionType }) => {
   return (
     <FlashList
       data={questions || []}
       decelerationRate="fast"
       estimatedItemSize={50}
-      renderItem={({item: question, index}) => {
+      renderItem={({ item: question, index }) => {
         return (
           <View style={[styles.questionContainer]} key={'Question' + index}>
             <RegularText style={styles.questionKey}>
@@ -364,9 +365,8 @@ const RenderQuestions = ({questions, questionType}) => {
       }}
       ListEmptyComponent={() => (
         <EmptyComponenet
-          message={`No ${
-            questionType === QUESTION_TYPE.WRONG ? 'Wrong' : 'Unattempted'
-          } Question`}
+          message={`No ${questionType === QUESTION_TYPE.WRONG ? 'Wrong' : 'Unattempted'
+            } Question`}
         />
       )}
       showsVerticalScrollIndicator={false}
@@ -374,10 +374,10 @@ const RenderQuestions = ({questions, questionType}) => {
   );
 };
 
-const RenderInformation = ({title, value, icon}) => {
+const RenderInformation = ({ title, value, icon }) => {
   return (
     <View style={[styles.informationCard]}>
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <RegularText style={styles.informationTitle}>{title}</RegularText>
         <RegularText style={styles.informationValue}>{value}</RegularText>
       </View>
@@ -386,12 +386,12 @@ const RenderInformation = ({title, value, icon}) => {
   );
 };
 
-const RenderChart = ({title, pieData}) => {
+const RenderChart = ({ title, pieData }) => {
   return (
     <View style={styles.chartCard}>
       <Title
         title={title}
-        style={{fontSize: textScale(12)}}
+        style={{ fontSize: textScale(12) }}
         numberOfLines={1}
       />
       <PieChart
@@ -403,7 +403,7 @@ const RenderChart = ({title, pieData}) => {
         textBackgroundRadius={26}
         data={pieData}
       />
-      <View style={{width: '100%'}}>
+      <View style={{ width: '100%' }}>
         {pieData.map(data => {
           return (
             <View
@@ -424,7 +424,7 @@ const RenderChart = ({title, pieData}) => {
                 }}
               />
               <RegularText
-                style={{flex: 1, fontSize: textScale(11)}}
+                style={{ flex: 1, fontSize: textScale(11) }}
                 numberOfLines={1}>
                 {data.title}
               </RegularText>
@@ -436,74 +436,16 @@ const RenderChart = ({title, pieData}) => {
   );
 };
 
-const RenderWebView = ({html, index, isBold}) => {
-  const [webViewHeight, setWebViewHeight] = useState(0);
-
-  const htmlContent = `
-    <html>
-      <head>
-        <style>
-          body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-          }
-          .content {}
-          span{
-             font-size:3rem;
-             font-weight : ${isBold ? 700 : 400};
-          }
-        </style>
-      </head>
-      <body>
-        <div id="content" class="content" style="height: fit-content"><span class="quest" </span>${html}</div>
-          <script>
-           function sendHeight() {
-            const contentDiv = document.getElementById('content');
-            if (contentDiv) {
-              const height = contentDiv.offsetHeight;
-              window.ReactNativeWebView.postMessage(height);
-            }
-          }
-  
-          // Send the height after the content is loaded
-          window.onload = sendHeight;
-  
-          // Observe changes in the content div and send updates
-          const observer = new ResizeObserver(() => sendHeight());
-          observer.observe(document.getElementById('content'));
-        </script>
-      </body>
-    </html>
-  `;
-
-  const handleQuestionMessage = event => {
-    console.log('clicked');
-
-    const height = parseInt(event.nativeEvent.data, 10);
-    setWebViewHeight(parseInt(height / 2.8));
-  };
-
-  return (
-    <WebView
-      source={{
-        html: htmlContent,
-      }}
-      cacheEnabled={false}
-      originWhitelist={['*']}
-      javaScriptEnabled={true}
-      androidHardwareAccelerationDisabled={true}
-      domStorageEnabled={false}
-      onMessage={handleQuestionMessage}
-      showsVerticalScrollIndicator={false}
-      style={{
-        width:
-          spacing.FULL_WIDTH -
-          APP_PADDING_HORIZONTAL * 2 -
-          spacing.MARGIN_12 * 2,
-        height: webViewHeight,
-      }}
-    />
+const RenderWebView = ({ html, index, isBold }) => {
+   return (
+    <View style={{ paddingHorizontal: APP_PADDING_HORIZONTAL }} >
+      <RenderHTML
+        source={{
+          html: html,
+        }}
+        contentWidth={spacing.FULL_WIDTH - (APP_PADDING_HORIZONTAL * 4)}
+      />
+    </View>
   );
 };
 

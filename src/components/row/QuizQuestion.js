@@ -1,19 +1,18 @@
-import {useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import RenderHTML from 'react-native-render-html';
 import WebView from 'react-native-webview';
 import colors from '../../styles/colors';
-import {textScale} from '../../styles/responsiveStyles';
-import {spacing} from '../../styles/spacing';
-import {fontNames} from '../../styles/typography';
-import {APP_PADDING_HORIZONTAL} from '../../themes/commonStyle';
+import { spacing } from '../../styles/spacing';
+import { APP_PADDING_HORIZONTAL } from '../../themes/commonStyle';
 import RegularText from '../common/text/RegularText';
 
-const Option = ({option, onPressOption, selectedOption}) => {
+const Option = ({ option, onPressOption, selectedOption }) => {
   return (
     <TouchableOpacity
       style={[
         styles.optionContainer,
-        selectedOption === option && {backgroundColor: colors.orange600},
+        selectedOption === option && { backgroundColor: colors.orange600 },
       ]}
       onPress={() => onPressOption(option)}>
       <RegularText>{option}</RegularText>
@@ -51,46 +50,7 @@ const QuizQuestion = ({
     handelSeletedOption(selectedOptionData);
   }
 
-  const htmlContent = `
-  <html>
-    <head>
-      <style>
-        body, html {
-          margin: 0;
-          padding: 0;
-          width: 97%;
-        }
-        .content {
-          padding:3rem 2rem;
-        }
-        span{
-           font-size:2.5rem;
-        }
-      </style>
-    </head>
-    <body>
-      <div id="content" class="content" style="height: fit-content"><span class="quest" >Quest ${
-        index + 1
-      }. </span>${question?.question}</div>
-        <script>
-         function sendHeight() {
-          const contentDiv = document.getElementById('content');
-          if (contentDiv) {
-            const height = contentDiv.offsetHeight;
-            window.ReactNativeWebView.postMessage(height);
-          }
-        }
 
-        // Send the height after the content is loaded
-        window.onload = sendHeight;
-
-        // Observe changes in the content div and send updates
-        const observer = new ResizeObserver(() => sendHeight());
-        observer.observe(document.getElementById('content'));
-      </script>
-    </body>
-  </html>
-`;
 
   const htmlContentDescription = `
   <html>
@@ -130,37 +90,27 @@ const QuizQuestion = ({
     </body>
   </html>
 `;
+
+  // console.log(" question?.question >> ", question?.question);
+
   return (
     <View
       style={[
         styles.mainContainer,
-        index === 0 && {marginTop: spacing.MARGIN_10},
+        index === 0 && { marginTop: spacing.MARGIN_10 },
       ]}>
       {/* <RegularText>
         <RegularText>Ques.{index + 1}:</RegularText>
         {'Question name'}
       </RegularText> */}
-      <WebView
-        source={{
-          html: htmlContent,
-        }}
-        cacheEnabled={false}
-        originWhitelist={['*']}
-        allowFileAccess={false}
-        javaScriptEnabled={true}
-        androidHardwareAccelerationDisabled={true}
-        domStorageEnabled={false}
-        useWebKit={true}
-        onMessage={handleQuestionMessage}
-        showsVerticalScrollIndicator={false}
-        style={{
-          // flex: 1,
-          width:
-            spacing.FULL_WIDTH - APP_PADDING_HORIZONTAL * 2 - spacing.MARGIN_12,
-          height: webViewHeight,
-          // height: spacing.HEIGHT_196,
-        }}
-      />
+      <View>
+        <RenderHTML
+          source={{
+            html: question?.question,
+          }}
+        // contentWidth={spacing.FULL_WIDTH -( APP_PADDING_HORIZONTAL * 2)}
+        />
+      </View>
       <View style={styles.optionsContainer}>
         <Option
           quizeSeletedOptions={quizeSeletedOptions}
@@ -212,31 +162,11 @@ const QuizQuestion = ({
         />
       </View>
       {isResultShow && (
-        <WebView
-          source={{
-            html: htmlContentDescription,
-          }}
-          cacheEnabled={false}
-          originWhitelist={['*']}
-          allowFileAccess={false}
-          javaScriptEnabled={true}
-          domStorageEnabled={false}
-          useWebKit={true}
-          androidHardwareAccelerationDisabled={true}
-          onMessage={handleAnswerMessage}
-          showsVerticalScrollIndicator={false}
-          style={[
-            styles.optionContainer,
-            {
-              // flex: 1,
-              width:
-                spacing.FULL_WIDTH -
-                APP_PADDING_HORIZONTAL * 2 -
-                spacing.MARGIN_12,
-              height: webViewAnswerHeight,
-            },
-          ]}
-        />
+          <RenderHTML
+            source={{
+              html: htmlContentDescription,
+            }}
+          />
       )}
     </View>
   );

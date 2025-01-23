@@ -20,6 +20,7 @@ import LoginButton from '../../../../components/common/LoginButton';
 import CourseCard from '../../../../components/homeComponent/CourseCard';
 import {colors, styles} from '../../../../themes';
 import {logoutUser} from '../../../../utils/commonFunction';
+import Header from '../../../../components/common/header/Header';
 
 const MyLearning = () => {
   const userDetails = useSelector(state => state.USER_SLICE);
@@ -94,11 +95,7 @@ const MyLearning = () => {
       <FullScreenLoading isLoading={isLoading} />
       {userDetails?.isUserLoggedIn ? (
         <View>
-          <CHeader
-            title={'My Learning'}
-            isHideBack={false}
-            customTextStyle={localStyles.headerText}
-          />
+          <Header title={'My Learning'} />
           <ScrollView
             showsVerticalScrollIndicator={false}
             refreshControl={
@@ -136,23 +133,7 @@ const MyLearning = () => {
         </View>
       ) : (
         <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              marginHorizontal: 10,
-              marginRight: 20,
-            }}>
-            <CHeader
-              title={'My Learning'}
-              isHideBack={false}
-              customTextStyle={localStyles.headerText}
-            />
-            <View>
-              <LoginButton />
-            </View>
-          </View>
+            <Header title={'My Learning'} />
           <LottieView
             source={require('../../../../assets/lottie/login.json')}
             autoPlay // Start playing automatically
@@ -175,7 +156,7 @@ export default MyLearning;
 const localStyles = StyleSheet.create({
   root: {
     ...styles.flex,
-    ...styles.ph10,
+    // ...styles.ph10,
   },
   headerText: {
     alignSelf: 'center',

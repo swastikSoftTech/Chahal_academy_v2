@@ -1,5 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import {
   ImageBackground,
   ScrollView,
@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {customRequest} from '../../api/customRequest';
+import { useDispatch, useSelector } from 'react-redux';
+import { customRequest } from '../../api/customRequest';
 import HomeHeader from '../../components/common/header/HomeHeader';
 import Image from '../../components/common/Image';
 import RegularText from '../../components/common/text/RegularText';
@@ -18,31 +18,27 @@ import CourseCategoryList from '../../components/module/CourseCategoryList';
 import CourseList from '../../components/module/CoursesList';
 import HomeContactUsCard from '../../components/module/HomeContactUsCard';
 import ImageCarousal from '../../components/module/ImageCarousal';
-import TestimonialList from '../../components/module/TestimonialList';
-import {StackNav, TabNav} from '../../navigation/NavigationKeys';
-import {showDrawer} from '../../redux/slices/drawerSlice';
+import { StackNav, TabNav } from '../../navigation/NavigationKeys';
+import { showDrawer } from '../../redux/slices/drawerSlice';
 import colors from '../../styles/colors';
 import commonStyle from '../../styles/commonStyles';
-import {boxShadow} from '../../styles/Mixins';
-import {textScale} from '../../styles/responsiveStyles';
-import {spacing} from '../../styles/spacing';
-import {fontNames} from '../../styles/typography';
-import {APP_PADDING_HORIZONTAL} from '../../themes/commonStyle';
+import { boxShadow } from '../../styles/Mixins';
+import { textScale } from '../../styles/responsiveStyles';
+import { spacing } from '../../styles/spacing';
+import { fontNames } from '../../styles/typography';
+import { APP_PADDING_HORIZONTAL } from '../../themes/commonStyle';
 import {
   CURRENT_AFFAIR_CATEGORY_TYPE,
   SCREEN_COURSE_CATEGORY,
   SCREEN_MATERIAL_STORE,
 } from '../../utils/constants';
-import {ImagePaths} from '../../utils/imagePaths';
-import LinearGradient from 'react-native-linear-gradient';
+import { ImagePaths } from '../../utils/imagePaths';
 
 const MARGIN_BETWEEN_SECTION = spacing.MARGIN_16;
 const Home = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const userDetails = useSelector(state => state.USER_SLICE);
-  const [visibleDrawer, setVisibleDrawer] = useState(false);
-  console.log('userDetails >>>', userDetails);
 
   const [courseCatgroies, setCourseCategories] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -59,28 +55,28 @@ const Home = () => {
       icon: ImagePaths.NEWS,
       onPress: () => navigation.navigate(StackNav.CurrentAffairCategory),
     },
-    {
-      title: 'Answer Writing',
-      icon: ImagePaths.QUESTION_ANSWER,
-      onPress: () =>
-        navigation.navigate(StackNav.CurrentAffairListing, {
-          currentAffairCategory: {
-            name: 'Daily Answer Writing',
-            type: CURRENT_AFFAIR_CATEGORY_TYPE.ANSWER_WRITING,
-          },
-        }),
-    },
     // {
-    //   title: 'Daily Quiz',
-    //   icon: ImagePaths.QUIZE,
+    //   title: 'Answer Writing',
+    //   icon: ImagePaths.QUESTION_ANSWER,
     //   onPress: () =>
     //     navigation.navigate(StackNav.CurrentAffairListing, {
     //       currentAffairCategory: {
-    //         name: 'Daily Quiz',
-    //         type: CURRENT_AFFAIR_CATEGORY_TYPE.CURRENT_AFFAIR_QUIZE,
+    //         name: 'Daily Answer Writing',
+    //         type: CURRENT_AFFAIR_CATEGORY_TYPE.ANSWER_WRITING,
     //       },
     //     }),
     // },
+    {
+      title: 'Daily Quiz',
+      icon: ImagePaths.QUIZE,
+      onPress: () =>
+        navigation.navigate(StackNav.CurrentAffairListing, {
+          currentAffairCategory: {
+            name: 'Daily Quiz',
+            type: CURRENT_AFFAIR_CATEGORY_TYPE.CURRENT_AFFAIR_QUIZE,
+          },
+        }),
+    },
     {
       title: 'Free Magazines',
       icon: ImagePaths.MAGAZINE,
@@ -132,18 +128,15 @@ const Home = () => {
           return parseFloat(b.amount) - parseFloat(a.amount);
         })
         .slice(0, 2);
-      console.log('courses >>', courses);
       setIasUpscCourses(courses);
     });
   };
 
   const getSliderData = () => {
     customRequest('student/slider/image', 'GET').then(res => {
-      console.log('Jso--', JSON.stringify(res));
       setSliders(res.map(slide => slide.image));
     });
   };
-  console.log('sliders >>', sliders);
 
   const toggleDrawer = () => {
     // setVisibleDrawer(!visibleDrawer);
@@ -193,9 +186,6 @@ const Home = () => {
           from={TabNav.HomeTab}
         />
         <View
-          // colors={[colors.theme, colors.lightTheme06, colors.grey200]}
-          // start={{x: 0, y: 0}}
-          // end={{x: 1, y: 0}}
           style={styles.categoryBanner_container}>
           <Image
             source={ImagePaths.ON_BOARD_IMAGE_2}
@@ -238,7 +228,7 @@ const Home = () => {
             source={ImagePaths.HOME_BANNER_GIRL}
             style={styles.banner_img}
           />
-          <View style={{flex: 1, justifyContent: 'center'}}>
+          <View style={{flex: 1, justifyContent: 'center',padding  : spacing.MARGIN_12 }}>
             <RegularText style={styles.bannerSubtitle}>
               The Leader in Online Learning
             </RegularText>
@@ -344,7 +334,7 @@ const styles = StyleSheet.create({
   bannerSubtitle: {
     fontSize: textScale(12),
     color: colors.grey700,
-    width: '55%',
+    width: '75%',
     marginLeft: spacing.MARGIN_12,
     fontFamily: fontNames.FONT_PRIMARY_MEDIUM,
   },

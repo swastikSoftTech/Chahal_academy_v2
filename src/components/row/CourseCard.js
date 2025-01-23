@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     ...boxShadow(colors.theme),
   },
   productImg: {
-    width: '100',
+    width: '100%',
     height: spacing.HEIGHT_136,
     backgroundColor: colors.grey300,
   },

@@ -250,13 +250,13 @@ const ProfileTab = ({navigation}) => {
                   navigation.navigate(StackNav.MySubscription);
                 }}
               />
-              <MenuItem
+              {/* <MenuItem
                 icon={IMAGE.JOIN}
                 title={'My InVoice'}
                 onPress={() => {
                   navigation.navigate(StackNav.MyInvoice);
                 }}
-              />
+              /> */}
               <MenuItem
                 icon={IMAGE.VIDEO}
                 title={'My Learning'}
@@ -264,20 +264,20 @@ const ProfileTab = ({navigation}) => {
                   navigation.navigate(StackNav.MyLearning);
                 }}
               />
-              <MenuItem
+              {/* <MenuItem
                 icon={IMAGE.EXAM}
                 title={'My Target'}
                 onPress={() => {
                   navigation.navigate(StackNav.TargetTab);
                 }}
-              />
-              <MenuItem
+              /> */}
+              {/* <MenuItem
                 icon={IMAGE.QUESTIONS}
                 title={'My Chat'}
                 onPress={() => {
                   navigation.navigate(StackNav.Chat);
                 }}
-              />
+              /> */}
               {userDetails?.isUserLoggedIn && (
                 <TouchableOpacity
                   onPress={() => {

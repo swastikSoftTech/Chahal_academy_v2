@@ -11,10 +11,13 @@ import {
 import { deviceWidth, getWidth } from '../../common/constants';
 
 import WebView from 'react-native-webview';
+import RenderHTML from 'react-native-render-html';
+import { spacing } from '../../styles/spacing';
+import { APP_PADDING_HORIZONTAL } from '../../themes/commonStyle';
 
 const Question = ({question, onOptionSelect, questionCount, index}) => {
   const [selectedOption, setSelectedOption] = useState(null);
-  console.log(' selectedOption>>>', selectedOption, question.qno, question);
+
   const handleSelectOption = option => {
     if (option === selectedOption) {
       onOptionSelect(null);
@@ -29,17 +32,15 @@ const Question = ({question, onOptionSelect, questionCount, index}) => {
     <ScrollView
       style={{
         width: deviceWidth,
-        minHeight: 600,
       }}>
       <View style={styles.questionTopContainer}>
         <Text style={styles.questionTopContainer_questionNo}>
           {question.qno}/{questionCount}
         </Text>
-
-        <WebView
+        <RenderHTML
           source={{html: question.question}}
           baseStyle={{color: 'black'}}
-          contentWidth={getWidth(deviceWidth - 32)}
+          contentWidth={spacing.FULL_WIDTH - (APP_PADDING_HORIZONTAL * 2)}
         />
       </View>
 
@@ -82,85 +83,25 @@ const Questions = ({
   currentPagerIndex,
   setCurrentPagerIndex,
 }) => {
-  // const onPressQuestionCount = index => {
-  //   scrollQuestion(index);
-  //   // setCurrentPagerIndex(index);
-  // };
-  // function scrollQuestion(index) {
-  //   pagerRef?.current?.scrollToIndex({animated: true, index: index});
-  //   setCurrentPagerIndex(index);
-  // }
-
-  // function scrollQuestionNo(index) {
-  //   questionNoRef?.current?.scrollToIndex({animated: true, index: index});
-  // }
 
   const keyExtractor = useCallback(item => item.qid.toString(), []);
-  // const getItemLayout = useCallback(
-  //   (data, index) => ({
-  //     length: deviceWidth,
-  //     offset: deviceWidth * index,
-  //     index,
-  //   }),
-  //   [],
-  // );
 
   const renderItem = ({item, index}) => (
+    <View style={{ minHeight : spacing.FULL_HEIGHT - spacing.MARGIN_18 - (spacing.MARGIN_12 *2) - spacing.MARGIN_90,}} >
     <Question
       questionCount={questions.length}
       question={item}
       key={'Question' + index}
-      // selectedOption={testAttempt[index]}
       onOptionSelect={selected => onOptionSelect(index, selected)}
     />
+    </View>
   );
 
   return (
     <View style={styles.mainContainer}>
-      {/* <View style={{marginVertical: 12}}>
-        <FlatList
-          ref={questionNoRef}
-          data={questions}
-          initialNumToRender={10}
-          renderItem={({item: question, index}) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() => onPressQuestionCount(index)}
-                style={[
-                  styles.questionCountContainer,
-                  {
-                    backgroundColor:
-                      index === currentPagerIndex
-                        ? 'green'
-                        : question.backgroundColor,
-                    marginRight: questions.length == index + 1 ? 8 : 0,
-                  },
-                ]}>
-                <Text
-                  style={[
-                    styles.questionCount,
-                    {
-                      color:
-                        index === currentPagerIndex
-                          ? 'white'
-                          : question.textColor,
-                    },
-                  ]}>
-                  Q.{question.qno}
-                </Text>
-              </TouchableOpacity>
-            );
-          }}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
-      </View> */}
       <FlashList
         ref={pagerRef}
         data={questions}
-        // contentContainerStyle={{flex: 1}}
-        // style={{flex: 1}}
         estimatedItemSize={50}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
@@ -168,13 +109,8 @@ const Questions = ({
         pagingEnabled
         decelerationRate="fast"
         showsHorizontalScrollIndicator={false}
-        // onViewableItemsChanged={onViewableItemsChanged.current}
-        // viewabilityConfig={viewabilityConfig.current}
-        // getItemLayout={getItemLayout}
-        // initialNumToRender={5}
-        // windowSize={5}
       />
-    </View>
+    </View> 
   );
 };
 
@@ -193,7 +129,6 @@ const styles = StyleSheet.create({
     fontFamily: 'urbanist-regular',
   },
   questionTopContainer: {
-    minHeight: 200,
     backgroundColor: '#f0f4ff',
     paddingHorizontal: 8,
     paddingVertical: 16,
@@ -204,7 +139,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   optionsMainContainer: {
-    flex: 1,
+    // flex: 1,
   },
   optionContainer: {
     elevation: 30,

@@ -26,6 +26,7 @@ import {
 import {StackNav} from '../../navigation/NavigationKeys';
 import FullScreenLoading from '../../components/common/FullScreenLoading';
 import flashMessage from '../../components/common/CustomFlashAlert';
+import RenderHTML from 'react-native-render-html';
 
 const AnswerWriting = ({route}) => {
   const {params} = route;
@@ -86,6 +87,7 @@ const AnswerWriting = ({route}) => {
       }
     } catch (err) {}
   }
+console.log("webViewHeight >>>", webViewHeight);
 
   // function handelSelection(value) {
   //   setActiveTab(value);
@@ -174,6 +176,7 @@ const AnswerWriting = ({route}) => {
             body, html {
               margin: 0;
               padding: 0;
+              width : 96%
             }
             .content {
               padding:3rem 2rem;
@@ -181,7 +184,7 @@ const AnswerWriting = ({route}) => {
               height : auto;
             }
             span{
-               font-size:2rem
+               font-size:1.5rem
             }
           </style>
         </head>
@@ -191,7 +194,8 @@ const AnswerWriting = ({route}) => {
          function sendHeight() {
           const contentDiv = document.getElementById('content');
           if (contentDiv) {
-            const height = contentDiv.offsetHeight;
+            const height = contentDiv.scrollHeight;
+            console.log(height, "<<<< height >>>>")
             window.ReactNativeWebView.postMessage(height);
           }
         }
@@ -218,16 +222,16 @@ const AnswerWriting = ({route}) => {
         />
       ) : (
         <ScrollView>
-          <WebView
+          <View  style={{paddingHorizontal : APP_PADDING_HORIZONTAL}} >
+          <RenderHTML
             source={{
-              html: htmlContent,
+              html: currentAffairDetail?.long_desc,
             }}
-            onMessage={handleMessage}
-            showsVerticalScrollIndicator={false}
-            style={[styles.webView, {height: webViewHeight}]}
+            contentWidth={spacing.FULL_WIDTH - (APP_PADDING_HORIZONTAL*4)}
           />
-          <Title title={'Submit Your Answer'} style={styles.title} />
-          <DailyQuizeForm handelFormData={handelFormData} />
+          </View>
+          {/* <Title title={'Submit Your Answer'} style={styles.title} />
+          <DailyQuizeForm handelFormData={handelFormData} /> */}
           {/* <MediumSelector
             activeTab={activeTab}
             handelSelection={handelSelection}

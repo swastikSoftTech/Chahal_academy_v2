@@ -1,7 +1,7 @@
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import moment from 'moment';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   RefreshControl,
@@ -10,8 +10,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import {useSelector} from 'react-redux';
-import {customRequest} from '../../../api/customRequest';
+import { useSelector } from 'react-redux';
+import { customRequest } from '../../../api/customRequest';
 import * as IMAGE from '../../../assets/images/indexnew';
 import {
   Montserrat_Medium,
@@ -23,10 +23,11 @@ import {
 import CHeader from '../../../components/common/CHeader';
 import CSafeAreaView from '../../../components/common/CSafeAreaView';
 import LoginButton from '../../../components/common/LoginButton';
-import {styles} from '../../../themes';
+import { styles } from '../../../themes';
 import FullScreenLoading from '../../../components/common/FullScreenLoading';
-import {logoutUser} from '../../../utils/commonFunction';
-const MySubscription = ({navigation}) => {
+import { logoutUser } from '../../../utils/commonFunction';
+import Header from '../../../components/common/header/Header';
+const MySubscription = ({ navigation }) => {
   const isFocused = useIsFocused();
   const colors = useSelector(state => state.theme.theme);
   const userDetails = useSelector(state => state.USER_SLICE);
@@ -79,16 +80,17 @@ const MySubscription = ({navigation}) => {
     <CSafeAreaView style={styles.flex}>
       <FullScreenLoading isLoading={isLoading} />
       {userDetails?.isUserLoggedIn ? (
-        <View>
-          <CHeader
+        <View style={{ flex: 1 }} >
+          {/* <CHeader
             title={'My Courses'}
             isHideBack={false}
             customTextStyle={localStyles.headerText}
-          />
-          <View style={{padding: 10}}>
+          /> */}
+          <Header title={'My Courses'} />
+          <View style={{ padding: 10 }}>
             <ScrollView
               showsVerticalScrollIndicator={false}
-              style={{marginBottom: 105}}
+              style={{ marginBottom: 105 }}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }>
@@ -107,18 +109,18 @@ const MySubscription = ({navigation}) => {
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                       }}>
-                      <View style={{width: '33%'}}>
+                      <View style={{ width: '33%' }}>
                         <Image
                           resizeMode="center"
-                          style={{width: 125, height: 110, borderRadius: 5}}
+                          style={{ width: 125, height: 110, borderRadius: 5 }}
                           source={
                             item?.course[0]?.image
-                              ? {uri: item?.course[0]?.image}
-                              : {uri: courseImage}
+                              ? { uri: item?.course[0]?.image }
+                              : { uri: courseImage }
                           }
                         />
                       </View>
-                      <View style={{width: '59%'}}>
+                      <View style={{ width: '59%' }}>
                         <Text
                           numberOfLines={1}
                           style={{
@@ -136,7 +138,7 @@ const MySubscription = ({navigation}) => {
                             flexDirection: 'row',
                             justifyContent: 'space-between',
                           }}>
-                          <View style={{width: '70%', flexDirection: 'row'}}>
+                          <View style={{ width: '70%', flexDirection: 'row' }}>
                             <Image
                               style={{
                                 width: 15,
@@ -156,7 +158,7 @@ const MySubscription = ({navigation}) => {
                             </Text>
                           </View>
                           <View
-                            style={{width: '30%', justifyContent: 'center'}}>
+                            style={{ width: '30%', justifyContent: 'center' }}>
                             <Text
                               style={{
                                 fontFamily: Montserrat_Medium,
@@ -169,7 +171,7 @@ const MySubscription = ({navigation}) => {
                           </View>
                         </View>
 
-                        <View style={{marginTop: 5, flexDirection: 'row'}}>
+                        <View style={{ marginTop: 5, flexDirection: 'row' }}>
                           <Image
                             style={{
                               width: 15,
@@ -185,12 +187,12 @@ const MySubscription = ({navigation}) => {
                               marginLeft: 5,
                               fontFamily: Montserrat_Medium,
                             }}>
-                            <Text style={{color: '#454545'}}>Paid : </Text>
+                            <Text style={{ color: '#454545' }}>Paid : </Text>
                             {dateFormatter(item?.start_date)}
                           </Text>
                         </View>
 
-                        <View style={{marginTop: 5, flexDirection: 'row'}}>
+                        <View style={{ marginTop: 5, flexDirection: 'row' }}>
                           <Image
                             style={{
                               width: 15,
@@ -206,7 +208,7 @@ const MySubscription = ({navigation}) => {
                               marginLeft: 5,
                               fontFamily: Montserrat_Medium,
                             }}>
-                            <Text style={{color: 'red'}}>Expired : </Text>
+                            <Text style={{ color: 'red' }}>Expired : </Text>
                             {dateFormatter(item?.expiry_date)}
                           </Text>
                         </View>
@@ -300,7 +302,7 @@ const MySubscription = ({navigation}) => {
                     aspectRatio: 1,
                     marginTop: getWidth(100),
                   }}
-                  source={{uri: noDataImage}}
+                  source={{ uri: noDataImage }}
                 />
               )}
             </ScrollView>
@@ -308,23 +310,7 @@ const MySubscription = ({navigation}) => {
         </View>
       ) : (
         <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              marginHorizontal: 10,
-              marginRight: 20,
-            }}>
-            <CHeader
-              title={'My Courses'}
-              isHideBack={false}
-              customTextStyle={localStyles.headerText}
-            />
-            <View>
-              <LoginButton />
-            </View>
-          </View>
+          <Header title={'My Courses'} />
           <LottieView
             source={require('../../../assets/lottie/login.json')}
             autoPlay // Start playing automatically
