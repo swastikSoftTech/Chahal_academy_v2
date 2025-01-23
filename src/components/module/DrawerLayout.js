@@ -134,7 +134,7 @@ const DrawerLayout = ({onClose}) => {
         />
       ))}
       <Menu
-        title={'Magazine'}
+        title={'Free Magazines'}
         icon={ImagePaths.MAGAZINE}
         onPress={onPressMagazine}
       />

@@ -178,7 +178,7 @@ const ProfileTab = ({navigation}) => {
                     }}>
                     {name}
                   </Text>
-                  <View style={{flexDirection: 'row', gap: 12}}>
+                  <View>
                     <Text
                       style={{
                         fontSize: 12,
@@ -193,13 +193,10 @@ const ProfileTab = ({navigation}) => {
                         navigation.navigate(StackNav.EditProfile);
                       }}
                       style={{
-                        position: 'absolute',
-                        right: -moderateScale(35),
-                        width: 30,
+                        marginTop: spacing.MARGIN_4,
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row',
-                        // top: 80,
                       }}>
                       <LinearGradient
                         colors={['#d418a0', '#ec3a7c', '#ff942d']}
@@ -269,7 +266,7 @@ const ProfileTab = ({navigation}) => {
               /> */}
               <MenuItem
                 icon={IMAGE.VIDEO}
-                title={'My Video'}
+                title={'My Videos'}
                 onPress={() => {
                   navigation.navigate(TabNav.CourseList);
                 }}
@@ -978,7 +975,7 @@ const localStyles = StyleSheet.create({
     shadowOffset: {height: 1, width: 1},
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    elevation: 2,
+    elevation: 4,
     marginBottom: moderateScale(12),
   },
   menuItem_title: {
