@@ -21,7 +21,7 @@ import Content from './Content';
 import {customRequest} from '../../../../api/customRequest';
 import {logoutUser} from '../../../../utils/commonFunction';
 import RenderHTML from 'react-native-render-html';
-import { spacing } from '../../../../styles/spacing';
+import {spacing} from '../../../../styles/spacing';
 
 const CourseDetail = () => {
   const route = useRoute();
@@ -103,7 +103,7 @@ const CourseDetail = () => {
   const removeHtmlTags = htmlString => {
     return htmlString.replace(/<[^>]*>/g, '');
   };
-console.log("base64String >", base64String);
+  console.log('base64String >', base64String);
 
   return (
     <CSafeAreaView style={localStyles.root}>
@@ -114,12 +114,15 @@ console.log("base64String >", base64String);
               ref={playerRef}
               allowsFullscreenVideo={true}
               source={{
-                uri: `http://lmsvideos.chahalacademy.com/?data=${base64String}`,
+                uri: `https://lmsvideos.chahalacademy.com/?data=${base64String}`,
                 headers: {},
               }}
               onError={err => {
                 console.log('webview err >>', err);
               }}
+              cacheEnabled={false}
+              cacheMode={'LOAD_NO_CACHE'}
+              mixedContentMode="always"
               // source={{
               //   uri: `https://aspirantvideo.chahalacademy.com/?data=${base64String}`,
               // }}
