@@ -41,7 +41,7 @@ const DrawerLayout = ({onClose}) => {
 
   const currentAffairesMenuData = [
     {
-      title: 'Daily Answer Writing',
+      title: 'Answer Writing',
       icon: ImagePaths.QUESTION_ANSWER,
       type: CURRENT_AFFAIR_CATEGORY_TYPE.ANSWER_WRITING,
     },

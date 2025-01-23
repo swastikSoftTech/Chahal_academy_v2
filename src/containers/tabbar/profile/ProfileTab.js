@@ -14,7 +14,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useDispatch, useSelector} from 'react-redux';
 import {customRequest} from '../../../api/customRequest';
 import * as IMAGE from '../../../assets/images/indexnew';
-import {Right_Arrow_Icon} from '../../../assets/svgs';
+import {BookFill, Right_Arrow_Icon, ZoomFill} from '../../../assets/svgs';
+
 import {
   Montserrat_Medium,
   getWidth,
@@ -23,7 +24,7 @@ import {
 import CHeader from '../../../components/common/CHeader';
 import CSafeAreaView from '../../../components/common/CSafeAreaView';
 import LoginButton from '../../../components/common/LoginButton';
-import {StackNav} from '../../../navigation/NavigationKeys';
+import {StackNav, TabNav} from '../../../navigation/NavigationKeys';
 import {colors, styles} from '../../../themes';
 import {ImagePaths} from '../../../utils/imagePaths';
 import commonStyle from '../../../styles/commonStyles';
@@ -36,6 +37,7 @@ import Image from '../../../components/common/Image';
 import RegularText from '../../../components/common/text/RegularText';
 import {textScale} from '../../../styles/responsiveStyles';
 import {logoutUser} from '../../../utils/commonFunction';
+import Button from '../../../components/common/button/Button';
 
 const ProfileTab = ({navigation}) => {
   const dispatch = useDispatch();
@@ -59,10 +61,10 @@ const ProfileTab = ({navigation}) => {
     }
   };
 
-  const MenuItem = ({onPress, title, icon}) => {
+  const MenuItem = ({onPress, title, icon, svg}) => {
     return (
       <TouchableOpacity style={localStyles.menuItemContainer} onPress={onPress}>
-        <Image style={localStyles.menuItem_icon} source={icon} />
+        {icon ? <Image style={localStyles.menuItem_icon} source={icon} /> : svg}
         <Text style={localStyles.menuItem_title}>{title}</Text>
         <Right_Arrow_Icon />
       </TouchableOpacity>
@@ -250,6 +252,7 @@ const ProfileTab = ({navigation}) => {
                   navigation.navigate(StackNav.MySubscription);
                 }}
               />
+
               {/* <MenuItem
                 icon={IMAGE.JOIN}
                 title={'My InVoice'}
@@ -257,11 +260,32 @@ const ProfileTab = ({navigation}) => {
                   navigation.navigate(StackNav.MyInvoice);
                 }}
               /> */}
-              <MenuItem
+              {/* <MenuItem
                 icon={IMAGE.VIDEO}
                 title={'My Learning'}
                 onPress={() => {
                   navigation.navigate(StackNav.MyLearning);
+                }}
+              /> */}
+              <MenuItem
+                icon={IMAGE.VIDEO}
+                title={'My Video'}
+                onPress={() => {
+                  navigation.navigate(TabNav.CourseList);
+                }}
+              />
+              <MenuItem
+                svg={<ZoomFill height={15} width={15} />}
+                title={'Live Classes'}
+                onPress={() => {
+                  navigation.navigate(TabNav.ZoomTab);
+                }}
+              />
+              <MenuItem
+                svg={<BookFill height={15} width={15} />}
+                title={'Test Series'}
+                onPress={() => {
+                  navigation.navigate(TabNav.TestSeriesCategory);
                 }}
               />
               {/* <MenuItem
@@ -279,16 +303,31 @@ const ProfileTab = ({navigation}) => {
                 }}
               /> */}
               {userDetails?.isUserLoggedIn && (
-                <TouchableOpacity
-                  onPress={() => {
+                <Button
+                  title={'Logout'}
+                  onPressButton={() => {
                     logoutUser();
                     ToastAndroid.show('Logout Successully.', ToastAndroid.LONG);
                   }}
-                  style={{alignSelf: 'center', marginTop: spacing.MARGIN_12}}>
-                  <RegularText style={{color: 'red', fontSize: textScale(14)}}>
-                    Logout
-                  </RegularText>
-                </TouchableOpacity>
+                  buttonStyle={{
+                    alignSelf: 'center',
+                    marginTop: spacing.MARGIN_12,
+                    borderRadius: spacing.RADIUS_10,
+                  }}
+                />
+                // <TouchableOpacity
+                //   onPress={() => {
+                //     logoutUser();
+                //     ToastAndroid.show('Logout Successully.', ToastAndroid.LONG);
+                //   }}
+                //   style={{alignSelf: 'center', marginTop: spacing.MARGIN_12}}>
+
+                //   <RegularText
+                //     style={{
+                //       color: 'red',
+                //       fontSize: textScale(14),
+                //     }}>Logout</RegularText>
+                // </TouchableOpacity>
               )}
             </View>
             {/* <View
