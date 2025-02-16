@@ -1,32 +1,29 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import colors from '../../styles/colors';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import FullScreenLoading from '../../components/common/FullScreenLoading';
 import Header from '../../components/common/header/Header';
-import RegularText from '../../components/common/text/RegularText';
-import Image from '../../components/common/Image';
-import {ImagePaths} from '../../utils/imagePaths';
-import {spacing} from '../../styles/spacing';
-import {fontNames} from '../../styles/typography';
-import {textScale} from '../../styles/responsiveStyles';
-import LinearGradient from 'react-native-linear-gradient';
-import {APP_PADDING_HORIZONTAL} from '../../themes/commonStyle';
-import commonStyle from '../../styles/commonStyles';
-import {useState} from 'react';
 import TestSeriesAnalyticsModal from '../../components/modal/TestSeriesAnalyticsModal';
 import TestSeriesList from '../../components/module/TestSeriesList';
+import { StackNav } from '../../navigation/NavigationKeys';
 import {
-  useGetTestSeriesCourseQuery,
-  useGetTestSeriesCourseSubmoduleQuery,
+  useGetTestSeriesCourseSubmoduleQuery
 } from '../../redux/apis/testSeries.api';
-import {useNavigation} from '@react-navigation/native';
-import {StackNav} from '../../navigation/NavigationKeys';
-import {SCREEN_TEST_SERIES_RESULT} from '../../utils/constants';
-import FullScreenLoading from '../../components/common/FullScreenLoading';
+import colors from '../../styles/colors';
+import commonStyle from '../../styles/commonStyles';
+import { textScale } from '../../styles/responsiveStyles';
+import { spacing } from '../../styles/spacing';
+import { fontNames } from '../../styles/typography';
+import { APP_PADDING_HORIZONTAL } from '../../themes/commonStyle';
+import { SCREEN_TEST_SERIES_FOLDER, SCREEN_TEST_SERIES_RESULT } from '../../utils/constants';
 
 const TestSeriesFolder = ({route}) => {
   const {params} = route;
   const {courseName, submoduleId} = params;
+  console.log("params >>>>>>>", params);
 
   const navigation = useNavigation();
+  const isFocused = useIsFocused()
 
   const [showAnalyticsModal, setShowAnalyticsModal] = useState(false);
 
@@ -34,9 +31,13 @@ const TestSeriesFolder = ({route}) => {
     data: testSeriesRes,
     isUninitialized,
     isLoading: isTestSeriesCourseSubmoduleLoading,
+    refetch : refetchTesetSeries
   } = useGetTestSeriesCourseSubmoduleQuery(submoduleId);
+  console.log('testSeriesRes folder folder >>>', JSON.stringify(testSeriesRes));
 
-  console.log('params >>', params);
+useEffect(() => {
+  if(isFocused)refetchTesetSeries()
+}, [isFocused])
 
   const onPressTestCategory = () => {
     setShowAnalyticsModal(true);
@@ -55,6 +56,13 @@ const TestSeriesFolder = ({route}) => {
       name: testSeries.name,
     });
   };
+
+   const navigateToTestFolder = testSeries => {
+      navigation.navigate(SCREEN_TEST_SERIES_FOLDER, {
+        courseName: testSeries.name,
+        submoduleId: testSeries.id,
+      });
+    };
   return (
     <View style={styles.mainContainer}>
       <Header title={courseName} hideBack={false} />
@@ -78,6 +86,7 @@ const TestSeriesFolder = ({route}) => {
               onPressTestSeriesCard={onPressTestSeriesCard}
               onPressResult={onPressResult}
               onPressStartTest={onPressStartTest}
+              navigateToTestFolder={navigateToTestFolder}
             />
           </View>
         </>

@@ -47,6 +47,7 @@ export default function CourseList() {
       setOpenDataList(res);
     });
   };
+  
   const getVideoList = async () => {
     customRequest('student/coursevideolist', 'GET').then(res => {
       console.log('coursevideolist >>', res);

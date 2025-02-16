@@ -1,11 +1,11 @@
-package com.chahal_academy_lms
+package com.chahalacademy_ias_upsc_pcs
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
-
+import android.view.WindowManager;
 
 class MainActivity : ReactActivity() {
 
@@ -24,5 +24,6 @@ class MainActivity : ReactActivity() {
   
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(null)
+    window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
   }
 }

@@ -1,4 +1,4 @@
-package com.chahal_academy_lms
+package com.chahalacademy_ias_upsc_pcs
 
 import android.app.Application
 import com.facebook.react.PackageList

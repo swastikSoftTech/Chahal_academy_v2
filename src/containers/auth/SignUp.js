@@ -328,7 +328,7 @@ const SignUp = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 height: getHeight(70),
-                width: getWidth(193),
+                // width: getWidth(193),
                 marginBottom: 20,
               },
             ]}>
@@ -343,6 +343,7 @@ const SignUp = () => {
               inputContainerStyle={[{backgroundColor: colors.inputBg}]}
               labelStyle={styles.ml20}
               inputBoxStyle={styles.ml15}
+              // containerStyle={{flex : 1, borderWidth : 1}}
             />
 
             <TouchableOpacity
@@ -382,7 +383,7 @@ const SignUp = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 height: getHeight(70),
-                width: getWidth(193),
+                // width: getWidth(193),
               },
             ]}>
             <CInput
@@ -393,9 +394,10 @@ const SignUp = () => {
               maxLength={30}
               secureTextEntry={confirmPasswordVisible}
               toGetTextFieldValue={text => setConfirmPassword(text)}
-              inputContainerStyle={[{backgroundColor: colors.inputBg}]}
+              inputContainerStyle={[{backgroundColor: colors.inputBg,}]}
               labelStyle={styles.ml20}
-              inputBoxStyle={styles.ml15}
+              inputBoxStyle={{...styles.ml15,}}
+              containerStyle={{flex : 1}}
             />
             <TouchableOpacity
               activeOpacity={1}

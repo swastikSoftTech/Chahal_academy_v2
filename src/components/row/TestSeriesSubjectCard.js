@@ -19,7 +19,8 @@ const TestSeriesSubjectCard = ({course, index, onPressTestSeriesSubject}) => {
         styles.mainContainer,
         index === 0 && {marginTop: spacing.MARGIN_16},
       ]}>
-      <Image source={{uri: course.image}} style={styles.thumbnail} />
+      <Image source={{uri: course.image}} style={styles.thumbnail} /> {/* course image */}
+      {/* TEST SERIES DETAILS  */}
       <View style={styles.rightContainer}>
         <View style={styles.rightContainerHeader}>
           <RegularText style={[styles.title, {flex: 1}]}>

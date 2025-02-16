@@ -58,7 +58,9 @@ export const {
   useGetTestSeriesCoursesQuery,
   useLazyGetTestSeriesCoursesQuery,
   useGetTestSeriesCourseQuery,
+  useLazyGetTestSeriesCourseQuery,
   useGetTestSeriesCourseSubmoduleQuery,
+  useLazyGetTestSeriesCourseSubmoduleQuery,
   useLazyGetTestSeriesResultsQuery,
   useLazyGetTestSeriesSingleResultQuery,
 } = TEST_SERIES_API;

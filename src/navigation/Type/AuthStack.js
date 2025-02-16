@@ -11,11 +11,11 @@ export default function AuthStack() {
       screenOptions={{headerShown: false}}
       initialRouteName={StackNav.Login}>
       <Stack.Screen name={StackNav.Login} component={StackRoute.Login} />
-      {/* <Stack.Screen name={StackNav.SignUp} component={StackRoute.SignUp} /> */}
-      {/* <Stack.Screen
+      <Stack.Screen name={StackNav.SignUp} component={StackRoute.SignUp} />
+      <Stack.Screen
         name={StackNav.Otpverify}
         component={StackRoute.Otpverify}
-      /> */}
+      />
       <Stack.Screen
         name={StackNav.CreatePassword}
         component={StackRoute.CreatePassword}

@@ -21,6 +21,7 @@ import { fontNames } from '../../styles/typography';
 import { APP_PADDING_HORIZONTAL } from '../../themes/commonStyle';
 import { ImagePaths } from '../../utils/imagePaths';
 import RenderHTML from 'react-native-render-html';
+import { useIsFocused } from '@react-navigation/native';
 
 const QUESTION_TYPE = {
   WRONG: 'WRONG',
@@ -34,16 +35,18 @@ const TestSeriesResult = ({ route }) => {
   const { params } = route;
   const { qId, attempt, type } = params;
 
+  const isFocused = useIsFocused()
+
   const attemptsArr = Array.from({ length: attempt }, (_, index) => index + 1);
 
   const [selectedAttempt, setSelectedAttempt] = useState(1);
-  const [result, setResult] = useState(); // common result state for types of result
+  const [result, setResult] = useState(); // common result state for diffrent types of result
   const [questionType, setQuestionType] = useState(QUESTION_TYPE.WRONG);
   const [error, setError] = useState();
 
   const [
     getResults,
-    { data: resultsRes, isFetching: isResultResLoading, error: resultsError },
+    { data: resultsRes, isFetching: isResultResLoading, error: resultsError, },
   ] = useLazyGetTestSeriesResultsQuery();
   const [
     getSingleResult,
@@ -91,45 +94,28 @@ const TestSeriesResult = ({ route }) => {
     // conditionaly fetching result as per type
     if (type == '1') getResults({ id: qId, attempt: selectedAttempt });
     else getSingleResult({ id: qId, attempt: selectedAttempt });
-  }, [selectedAttempt]);
+  }, [selectedAttempt, isFocused]);
 
   useEffect(() => {
     // conditionaly storing result response in result state as per type
     if (resultsRes) setResult(resultsRes);
     else setResult(singleResultRes);
-
+    // string error for both types 
     if (resultsError) {
       setError(resultsError);
     } else if (singleresultError) setError(singleresultError);
-  }, [resultsRes, singleResultRes, resultsError, singleresultError]);
-
-  console.log(
-    'result >>',
-    params,
-    resultsRes,
-    'singleresult >>',
-    singleResultRes,
-    error,
-  );
+    else setError(undefined)
+  }, [resultsRes, singleResultRes, resultsError, singleresultError, isSingleResultLoading, isResultResLoading]);
 
   const onChangeAttempt = attempt => {
     setSelectedAttempt(attempt);
   };
+console.log("result >>", result);
+console.log("resultsRes >>", resultsRes);
+console.log("singleResultRes >>", singleResultRes);
 
   const accuracy = (result?.correctAnswer / result?.totalAttempt) * 100;
 
-  const tabData = [
-    {
-      tabName: 'Wrong_question',
-      label: 'Wrong Question',
-      component: RenderQuestions,
-    },
-    {
-      tabName: 'Unattempted_question',
-      label: 'Unattemptedd Question',
-      component: RenderQuestions,
-    },
-  ];
   return (
     <View style={{ flex: 1, backgroundColor: colors.grey100 }}>
       <Header title={'Results'} hideBack={false} />
@@ -161,6 +147,7 @@ const TestSeriesResult = ({ route }) => {
           })}
         </ScrollView>
       </View>
+      {/*   ------------------- ATTEMPTS HORIZONTAL LIST - ENDING ------------------- */}
       {isResultResLoading || isSingleResultLoading ? (
         <FullScreenLoading
           isLoading={isResultResLoading || isSingleResultLoading}
@@ -176,12 +163,13 @@ const TestSeriesResult = ({ route }) => {
                   source={ImagePaths.NOT_FOUND}
                   style={styles.notDataImg}
                 />
-                <Title title={'No data found'} />
+                <Title title={'Test was not submitted properly'} />
               </View>
             ) : (
-              //  ------------------- ATTEMPTS HORIZONTAL LIST - ENDING -------------------
+            
               <ScrollView
                 style={styles.contentContainer}
+                showsVerticalScrollIndicator={false}
                 stickyHeaderIndices={[2]}>
                 <View style={styles.infromationContainer}>
                   <RenderInformation
@@ -190,7 +178,7 @@ const TestSeriesResult = ({ route }) => {
                     icon={ImagePaths.REPORT}
                   />
                   <RenderInformation
-                    title={'Scored Answer'}
+                    title={'Scored Marks'}
                     value={parseFloat(result?.totalMarks).toFixed(2)}
                     icon={ImagePaths.SPEEDO_METER}
                   />
@@ -208,11 +196,11 @@ const TestSeriesResult = ({ route }) => {
 
                 <View style={styles.chartContainer}>
                   <RenderChart
-                    title={`Total Question : ${result?.totalQuestion || 0}`}
+                    title={`Total Question: ${result?.totalQuestion || 0}`}
                     pieData={ATTEMPT_PIE_DATA}
                   />
                   <RenderChart
-                    title={`Total Attempted : ${result?.totalAttempt || 0}`}
+                    title={`Total Attempt: ${result?.totalAttempt || 0}`}
                     pieData={pieData}
                   />
                 </View>
@@ -262,63 +250,6 @@ const TestSeriesResult = ({ route }) => {
                 ) : (
                   <RenderQuestions questions={result?.leaveQuestions} />
                 )}
-                {/* <TopTabs tabsData={tabData} /> */}
-
-                {/* <FlashList
-                  data={
-                    questionType === QUESTION_TYPE.WRONG
-                      ? result?.wrongQuestions || []
-                      : result?.leaveQuestions || []
-                  }
-                  decelerationRate="fast"
-                  renderItem={({item: question, index}) => {
-                    return (
-                      <View
-                        style={[styles.questionContainer]}
-                        key={'Question' + index}>
-                        <RegularText style={styles.questionKey}>
-                          Question {index + 1}
-                        </RegularText>
-                        <RenderWebView
-                          html={question.question}
-                          index={index}
-                          isBold
-                        />
-                        <RegularText style={styles.questionKey}>
-                          Answer :{' '}
-                          <RegularText style={styles.questionValue}>
-                            {question?.answer}
-                          </RegularText>
-                        </RegularText>
-                        {question?.your_answer && (
-                          <RegularText style={styles.questionKey}>
-                            Your Answer :{' '}
-                            <RegularText style={styles.questionValue}>
-                              {question?.your_answer}
-                            </RegularText>
-                          </RegularText>
-                        )}
-                        <RegularText style={styles.questionKey}>
-                          Explaination :{' '}
-                        </RegularText>
-                        <RenderWebView
-                          html={question.explaination}
-                          index={index}
-                        />
-                      </View>
-                    );
-                  }}
-                  ListEmptyComponent={() => (
-                    <EmptyComponenet
-                      message={`No ${
-                        questionType === QUESTION_TYPE.WRONG
-                          ? 'Wrong'
-                          : 'Unattempted'
-                      } Question`}
-                    />
-                  )}
-                  showsVerticalScrollIndicator={false}
-                /> */}
               </ScrollView>
             )
             // ------------------- WRONG AND LEAVE QUESTIONS TAB - ENDING -------------------
@@ -343,7 +274,7 @@ const RenderQuestions = ({ questions, questionType }) => {
             </RegularText>
             <RenderWebView html={question.question} index={index} isBold />
             <RegularText style={styles.questionKey}>
-              Answer :{' '}
+              Correct Answer :{' '}
               <RegularText style={styles.questionValue}>
                 {question?.answer}
               </RegularText>
@@ -357,7 +288,7 @@ const RenderQuestions = ({ questions, questionType }) => {
               </RegularText>
             )}
             <RegularText style={styles.questionKey}>
-              Explaination :{' '}
+              Explanation :{' '}
             </RegularText>
             <RenderWebView html={question?.explaination} index={index} />
           </View>
@@ -392,6 +323,7 @@ const RenderChart = ({ title, pieData }) => {
       <Title
         title={title}
         style={{ fontSize: textScale(12) }}
+        adjustsFontSizeToFit
         numberOfLines={1}
       />
       <PieChart
@@ -437,7 +369,7 @@ const RenderChart = ({ title, pieData }) => {
 };
 
 const RenderWebView = ({ html, index, isBold }) => {
-   return (
+  return (
     <View style={{ paddingHorizontal: APP_PADDING_HORIZONTAL }} >
       <RenderHTML
         source={{

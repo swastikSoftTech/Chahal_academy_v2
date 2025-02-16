@@ -13,6 +13,7 @@ import CText from '../../components/common/CText';
 import CButton from '../../components/common/CButton';
 import strings from '../../i18n/strings';
 import {StackNav} from '../../navigation/NavigationKeys';
+import OtpInput from '../../components/common/input/OtpInput';
 
 const Otpverify = ({navigation}) => {
   const colors = useSelector(state => state.theme.theme);
@@ -43,7 +44,7 @@ const Otpverify = ({navigation}) => {
               {'+84 123 424 998'}
             </CText>
           </View>
-          <OTPInputView
+          {/* <OTPInputView
             pinCount={4}
             code={pin}
             onCodeChanged={onPinChange}
@@ -61,6 +62,11 @@ const Otpverify = ({navigation}) => {
             }}
             style={localStyles.inputStyle}
             secureTextEntry={true}
+          /> */}
+          <OtpInput
+             otpLength={4}
+             code={pin}
+             onCodeChange={(onPinChange)}
           />
         </View>
         <View style={localStyles.resendContainer}>

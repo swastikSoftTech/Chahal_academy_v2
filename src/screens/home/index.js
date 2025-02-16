@@ -55,20 +55,9 @@ const Home = () => {
       icon: ImagePaths.NEWS,
       onPress: () => navigation.navigate(StackNav.CurrentAffairCategory),
     },
-    // {
-    //   title: 'Answer Writing',
-    //   icon: ImagePaths.QUESTION_ANSWER,
-    //   onPress: () =>
-    //     navigation.navigate(StackNav.CurrentAffairListing, {
-    //       currentAffairCategory: {
-    //         name: 'Daily Answer Writing',
-    //         type: CURRENT_AFFAIR_CATEGORY_TYPE.ANSWER_WRITING,
-    //       },
-    //     }),
-    // },
     {
       title: 'Daily Quiz',
-      icon: ImagePaths.QUIZE,
+      icon: ImagePaths.QUESTION_ANSWER,
       onPress: () =>
         navigation.navigate(StackNav.CurrentAffairListing, {
           currentAffairCategory: {
@@ -78,14 +67,25 @@ const Home = () => {
         }),
     },
     {
-      title: 'Free Magazines',
+      title: 'Magazines',
       icon: ImagePaths.MAGAZINE,
       onPress: () => navigation.navigate(StackNav.MagazinesCategory),
     },
+    // {
+    //   title: 'Books Store',
+    //   icon: ImagePaths.STORE,
+    //   onPress: () => navigation.navigate(SCREEN_MATERIAL_STORE),
+    // },
     {
-      title: 'Books Store',
-      icon: ImagePaths.STORE,
-      onPress: () => navigation.navigate(SCREEN_MATERIAL_STORE),
+      title: 'Answer Writing',
+      icon: ImagePaths.ANSWER_WRITING,
+      onPress: () =>
+        navigation.navigate(StackNav.CurrentAffairListing, {
+          currentAffairCategory: {
+            name: 'Daily Answer Writing',
+            type: CURRENT_AFFAIR_CATEGORY_TYPE.ANSWER_WRITING,
+          },
+        }),
     },
   ];
 
@@ -163,7 +163,7 @@ const Home = () => {
             marginTop: MARGIN_BETWEEN_SECTION,
           }}
         />
-        <Title title={'Start Your Journey🔥'} style={styles.title} />
+        <Title title={'Our Free Initiatives 🔥'} style={styles.title} />
         <View style={styles.freeContentCards}>
           {FREE_CONTENTS.map((content, index) => (
             <FreeContentCard

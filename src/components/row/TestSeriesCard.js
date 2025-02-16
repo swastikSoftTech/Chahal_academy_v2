@@ -1,14 +1,14 @@
-import {StyleSheet, View} from 'react-native';
-import {spacing} from '../../styles/spacing';
+import { StyleSheet, View } from 'react-native';
+import { spacing } from '../../styles/spacing';
 import Image from '../common/Image';
-import {ImagePaths} from '../../utils/imagePaths';
-import {APP_PADDING_HORIZONTAL} from '../../themes/commonStyle';
+import { ImagePaths } from '../../utils/imagePaths';
+import { APP_PADDING_HORIZONTAL } from '../../themes/commonStyle';
 import colors from '../../styles/colors';
-import {boxShadow} from '../../styles/Mixins';
+import { boxShadow } from '../../styles/Mixins';
 import commonStyle from '../../styles/commonStyles';
-import {textScale} from '../../styles/responsiveStyles';
+import { textScale } from '../../styles/responsiveStyles';
 import Title from '../common/text/Title';
-import {fontNames} from '../../styles/typography';
+import { fontNames } from '../../styles/typography';
 import AttributeKeyValue from '../common/text/AttributeKeyValue';
 import flex from '../../themes/flex';
 import Button from '../common/button/Button';
@@ -21,11 +21,14 @@ const TestSeriesCard = ({
   course,
   onPressResult,
 }) => {
+  console.log("course >>",course);
+  console.log("testSeries >>",JSON.stringify(testSeries));
+  
   return (
     <View
       style={[
         styles.mainContainer,
-        index === 0 && {marginTop: spacing.MARGIN_16},
+        index === 0 && { marginTop: spacing.MARGIN_16 },
       ]}>
       <View style={styles.headerContainer}>
         <Image source={ImagePaths.STUDENT_COURCE} style={styles.studentIcon} />
@@ -34,20 +37,19 @@ const TestSeriesCard = ({
       <Image
         source={
           testSeries?.image && testSeries?.image != ''
-            ? {uri: testSeries?.image}
+            ? { uri: testSeries?.image }
             : ImagePaths.STUDENT_COURCE
         }
         style={styles.thumbnail}
         resizeMode={'cover'}
       />
       <View style={styles.seconderyContainer}>
-        {course?.duration || testSeries?.module1?.duration ? (
-          <RenderKeyValue
-            img={ImagePaths.CLOCK}
-            title={'Duration'}
-            value={`${course?.duration || testSeries?.module1?.duration} mins`}
-          />
-        ) : null}
+        <RenderKeyValue
+          img={ImagePaths.BOOK}
+          title={'Total Marks'}
+          value={course?.total_marks || testSeries?.module1?.total_marks || 0}
+        />
+
         {course?.qst_count || testSeries?.qst_count ? (
           <RenderKeyValue
             img={ImagePaths.QUESTION}
@@ -58,12 +60,14 @@ const TestSeriesCard = ({
         <RenderKeyValue
           img={ImagePaths.TEST_SERIES}
           title={'Max Attempt'}
-          value={course?.attempts || testSeries?.attempts || 0}
+          // value={course?.attempts || testSeries?.attempts || 0}
+          value={testSeries?.module1?.attempts || 0}
         />
         <RenderKeyValue
           img={ImagePaths.TEST_SERIES}
           title={'Attempt'}
-          value={`${testSeries.attempts || testSeries?.module1?.attempts}`}
+          // value={`${testSeries.attempts || testSeries?.module1?.attempts}`}
+          value={`${testSeries.attempts }`}
         />
         <RenderKeyValue
           img={ImagePaths.QUESTION}
@@ -72,22 +76,34 @@ const TestSeriesCard = ({
             course?.negative_marks || testSeries?.module1?.negative_marks || 0
           }
         />
-        <RenderKeyValue
-          img={ImagePaths.BOOK}
-          title={'Total Marks'}
-          value={course?.total_marks || testSeries?.module1?.total_marks || 0}
-        />
+        {course?.duration || testSeries?.module1?.duration ? (
+          <RenderKeyValue
+            img={ImagePaths.CLOCK}
+            title={'Duration'}
+            value={`${course?.duration || testSeries?.module1?.duration} mins`}
+          />
+        ) : null}
       </View>
-      <Button
-        title={`${
-          testSeries.test_structure.name === 'Folder' ? 'Show' : 'Start'
-        } Test`}
-        onPressButton={() =>
-          testSeries.test_structure.name === 'Folder'
-            ? navigateToTestFolder(testSeries)
-            : onPressStartTest(testSeries)
-        }
-      />
+      {/* { testSeries.test_structure.name === 'Folder' || (testSeries.attempts || testSeries?.module1?.attempts) &&  */}
+      {testSeries.test_structure.name === 'Folder' ?
+        <Button
+          title={`Show Test`}
+          onPressButton={() => navigateToTestFolder(testSeries)}
+        /> :
+        <>
+          {testSeries.attempts <testSeries?.module1?.attempts?
+            <Button
+              title={`Start Test`}
+              onPressButton={() =>
+                testSeries.test_structure.name === 'Folder'
+                  ? navigateToTestFolder(testSeries)
+                  : onPressStartTest(testSeries)
+              }
+            /> 
+            : null}
+        </>
+      }
+      {/* } */}
       {testSeries.test_structure.name !== 'Folder' &&
         (testSeries?.test_results?.attempts > 0 ||
           testSeries?.test_result?.attempt > 0) && (
@@ -107,14 +123,14 @@ const TestSeriesCard = ({
   );
 };
 
-const RenderKeyValue = ({img, title, value, isDarkColor}) => {
+const RenderKeyValue = ({ img, title, value, isDarkColor }) => {
   return (
-    <View style={[commonStyle.flexDirectionRow, {gap: spacing.MARGIN_6}]}>
+    <View style={[commonStyle.flexDirectionRow, { gap: spacing.MARGIN_6 }]}>
       <Image
         source={img}
         style={[
           styles.studentIcon,
-          isDarkColor && {tintColor: colors.deepOrange300},
+          isDarkColor && { tintColor: colors.deepOrange300 },
         ]}
       />
       <AttributeKeyValue
@@ -122,11 +138,11 @@ const RenderKeyValue = ({img, title, value, isDarkColor}) => {
         value={value}
         titleStyle={[
           styles.titleStyle,
-          isDarkColor && {color: colors.deepOrange300},
+          isDarkColor && { color: colors.deepOrange300 },
         ]}
         valueStyle={[
-          {flex: 0, fontSize: textScale(12)},
-          isDarkColor && {color: colors.deepOrange300},
+          { flex: 0, fontSize: textScale(12) },
+          isDarkColor && { color: colors.deepOrange300 },
         ]}
       />
     </View>

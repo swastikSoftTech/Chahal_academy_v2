@@ -41,13 +41,13 @@ const DrawerLayout = ({onClose}) => {
 
   const currentAffairesMenuData = [
     {
-      title: 'Daily Answer Writing',
-      icon: ImagePaths.QUESTION_ANSWER,
+      title: 'Answer Writing',
+      icon: ImagePaths.ANSWER_WRITING,
       type: CURRENT_AFFAIR_CATEGORY_TYPE.ANSWER_WRITING,
     },
     {
       title: 'Daily Quiz',
-      icon: ImagePaths.QUIZE,
+      icon: ImagePaths.QUESTION_ANSWER,
       type: CURRENT_AFFAIR_CATEGORY_TYPE.CURRENT_AFFAIR_QUIZE,
     },
   ];
@@ -105,11 +105,11 @@ const DrawerLayout = ({onClose}) => {
         <RegularText style={styles.username}>Chahal Academy</RegularText>
       </View>
       <View style={styles.seprator} />
-      <Menu
+      {/* <Menu
         title={'Dashboard'}
         icon={ImagePaths.DASHBOARD}
         onPress={onPressDashboard}
-      />
+      /> */}
       <Menu
         title={'Books Store'}
         icon={ImagePaths.STORE}
@@ -134,7 +134,7 @@ const DrawerLayout = ({onClose}) => {
         />
       ))}
       <Menu
-        title={'Magazine'}
+        title={'Free Magazines'}
         icon={ImagePaths.MAGAZINE}
         onPress={onPressMagazine}
       />

@@ -117,7 +117,7 @@ export default function Dashboard() {
                 }}>
                 <CText type={'m16'}>{data?.name}</CText>
                 <CText type={'m16'}>
-                  {(data.attempt / data.total).toFixed(2) * 100}%
+                  {(data?.attempt / data?.total).toFixed(2) * 100}%
                 </CText>
               </View>
             ))}
@@ -142,7 +142,7 @@ export default function Dashboard() {
                 }}>
                 <CText type={'m16'}>{data?.name}</CText>
                 <CText type={'m16'}>
-                  {(data.watched / data.total).toFixed(2) * 100}%
+                  {(data?.watched / data?.total).toFixed(2) * 100}%
                 </CText>
               </View>
             ))}
@@ -222,6 +222,8 @@ export default function Dashboard() {
       setIsLoggedIn(true);
       customRequest('student/app/dashboard', 'GET')
         .then(res => {
+          console.log("res >>", res);
+          
           if (res?.message === 'Unauthenticated.') {
             logoutUser();
             return;
@@ -321,7 +323,7 @@ export default function Dashboard() {
                     color: 'green',
                     textAlign: 'center',
                   }}>
-                  {data.padiCourseCount || 0 + ''}
+                  {data?.padiCourseCount || 0 + ''}
                 </Text>
               </View>
 
@@ -364,7 +366,7 @@ export default function Dashboard() {
                     color: '#5F5CF0',
                     textAlign: 'center',
                   }}>
-                  {freeCourseNum + data.padiCourseCount || 0}
+                  {freeCourseNum + data?.padiCourseCount || 0}
                 </Text>
               </View>
             </View>
@@ -376,7 +378,7 @@ export default function Dashboard() {
                 paddingTop: 8,
               }}></View>
 
-            {data.AllVideoCount > 0 && (
+            {data?.AllVideoCount > 0 && (
               <View
                 style={{
                   backgroundColor: 'white',
@@ -405,7 +407,7 @@ export default function Dashboard() {
                       fontWeight: '600',
                       color: '#202244',
                     }}>
-                    Total Videos: {data.AllVideoCount}
+                    Total Videos: {data?.AllVideoCount}
                   </Text>
                 </View>
 
@@ -435,7 +437,7 @@ export default function Dashboard() {
                       return (
                         <Text style={{fontSize: 25, color: 'green'}}>
                           {(
-                            (data.watchvideosCount / data.AllVideoCount) *
+                            (data?.watchvideosCount / data?.AllVideoCount) *
                             100
                           ).toFixed(2)}
                           %
@@ -500,7 +502,7 @@ export default function Dashboard() {
                       fontWeight: '600',
                       color: '#202244',
                     }}>
-                    Total Test Series: {data.totalTestSeries}
+                    Total Test: {data?.totalTestSeries}
                   </Text>
                 </View>
 

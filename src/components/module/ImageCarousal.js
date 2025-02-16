@@ -66,6 +66,7 @@ const ImageCarousal = ({
         {
           alignItems: 'center',
           borderRadius: spacing.RADIUS_12,
+          overflow : 'hidden'
         },
         mainViewStyle,
       ]}>
@@ -96,6 +97,7 @@ const ImageCarousal = ({
               viewStyle={{
                 borderRadius: spacing.RADIUS_12,
                 ...imgContainerstyle,
+                overflow : 'hidden',
               }}
               resizeMode={resizeMode}
               isLoading={isLoading}

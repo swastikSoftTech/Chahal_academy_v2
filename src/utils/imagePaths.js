@@ -45,6 +45,7 @@ export const ImagePaths = {
   NEGATIVE_SIGN: require('../assets/images/negative_sign.png'),
   REPORT: require('../assets/images/report.png'),
   ACCURACY: require('../assets/images/accuracy.png'),
+  ANSWER_WRITING: require('../assets/images/book_answer_writing.png'),
 
   WARNING: require('../assets/images/warning.png'),
   // SVGS

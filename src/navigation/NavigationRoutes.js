@@ -13,10 +13,10 @@ import ZoomTab from '../containers/tabbar/Zoom/ZoomTab';
 import Splash from '../containers/auth/Splash';
 import OnBoarding from '../containers/OnBoarding';
 import Login from '../containers/auth/Login';
-// import SignUp from '../containers/auth/SignUp';
+import SignUp from '../containers/auth/SignUp';
 import ForgotPassword from '../containers/auth/ForgotPassword';
 import PasswordReset from '../containers/auth/PasswordReset';
-// import Otpverify from '../containers/auth/Otpverify';
+import Otpverify from '../containers/auth/Otpverify';
 import CreatePassword from '../containers/auth/CreatePassword';
 import Success from '../containers/auth/Success';
 import TabBar from './Type/TabBarNavigation';
@@ -82,10 +82,10 @@ export const StackRoute = {
   Splash,
   OnBoarding,
   Login,
-  // SignUp,
+  SignUp,
   ForgotPassword,
   PasswordReset,
-  // Otpverify,
+  Otpverify,
   CreatePassword,
   Success,
   TabBar,

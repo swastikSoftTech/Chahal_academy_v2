@@ -8,8 +8,9 @@ export async function header(headers) {
   //   headers.set('OsVersion', await DeviceInfo.getSystemVersion());
   //   headers.set('Os', Platform.OS);
   const token = await AsyncStorage.getItem('tokenStudent');
-
+  
   if (token) {
+    console.log("token >>",token);
     headers.set('Authorization', `Bearer ${token}`);
   }
   return headers;

@@ -5,7 +5,7 @@ import colors from '../../../styles/colors';
 
 const RegularText = props => {
   return (
-    <Text {...props} style={[styles.text, props.style, props.style2]}>
+    <Text {...props} style={[styles.text, props.style, props.style2]} >
       {props.children}
     </Text>
   );

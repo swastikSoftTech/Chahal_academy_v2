@@ -1,19 +1,19 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {getWidth} from '../../../common/constants';
+import React, { useEffect, useRef, useState } from 'react';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { getWidth } from '../../../common/constants';
 import moment from 'moment';
 import CText from '../../../components/common/CText';
 import Questions from '../../../components/test/Questions';
-import {useNavigation} from '@react-navigation/native';
-import {customRequest} from '../../../api/customRequest';
-import {StackNav} from '../../../navigation/NavigationKeys';
+import { useNavigation } from '@react-navigation/native';
+import { customRequest } from '../../../api/customRequest';
+import { StackNav } from '../../../navigation/NavigationKeys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from '../../../api/axios';
 import FullScreenLoading from '../../../components/common/FullScreenLoading';
-import {SCREEN_TEST_SERIES_RESULT} from '../../../utils/constants';
-import {useLazyGetTestSeriesSingleResultQuery} from '../../../redux/apis/testSeries.api';
+import { SCREEN_TEST_SERIES_RESULT } from '../../../utils/constants';
+import { useLazyGetTestSeriesCourseQuery, useLazyGetTestSeriesCoursesQuery, useLazyGetTestSeriesCourseSubmoduleQuery, useLazyGetTestSeriesSingleResultQuery } from '../../../redux/apis/testSeries.api';
 
-const StartTest = ({route}) => {
+const StartTest = ({ route }) => {
   const navigation = useNavigation();
 
   // ------------------------ useRef ------------------------
@@ -22,7 +22,7 @@ const StartTest = ({route}) => {
   const viewabilityConfig = useRef({
     itemVisiblePercentThreshold: 50,
   });
-  const onViewableItemsChanged = useRef(({viewableItems, changed}) => {
+  const onViewableItemsChanged = useRef(({ viewableItems, changed }) => {
     if (viewableItems.length) {
       // Get the index of the first viewable item
       const firstViewableItem = viewableItems[0];
@@ -43,6 +43,8 @@ const StartTest = ({route}) => {
   // ------------------------ Boolean states ------------------------
   const [isLoading, setIsLoading] = useState(true);
 
+  const [getTestSeriesCourseSubmodule]= useLazyGetTestSeriesCourseSubmoduleQuery()
+
   useEffect(() => {
     // setIsLoading(true)
     getTestSeries();
@@ -57,9 +59,13 @@ const StartTest = ({route}) => {
     // https://lmscodenew.chahalacademy.com/api/student/test-attempt/{testID}
     await customRequest(`student/test-attempt/${id}`, 'GET')
       .then(async attempt => {
+        console.log("attempt >>", attempt);
+
         if (attempt[0] == 'success') {
           await customRequest(`student/test-series/question/${id}`, 'GET')
             .then(res => {
+              console.log("res >>>>>", res);
+
               // const temp = res.data ? res.data : res;
               if (res.subModuleName) {
                 const temp = res.data;
@@ -123,7 +129,7 @@ const StartTest = ({route}) => {
       if (count === '0:0:0') {
         clearInterval(intervalId);
         Alert.alert('Timeout', 'Please try again on next attempt', [
-          {text: 'Ok', onPress: navigation.goBack()},
+          { text: 'Ok', onPress: navigation.goBack() },
         ]);
       }
     }, 1000);
@@ -148,7 +154,7 @@ const StartTest = ({route}) => {
           },
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   };
 
@@ -203,7 +209,7 @@ const StartTest = ({route}) => {
   };
 
   function scrollQuestion(index) {
-    pagerRef?.current?.scrollToIndex({animated: true, index: index});
+    pagerRef?.current?.scrollToIndex({ animated: true, index: index });
     setCurrentPagerIndex(index);
   }
 
@@ -226,10 +232,9 @@ const StartTest = ({route}) => {
           onPress: () => handleFinalSubmitAnswer(),
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   };
-  console.log('parasm >>>', route.params);
 
   const handleFinalSubmitAnswer = async () => {
     try {
@@ -237,7 +242,7 @@ const StartTest = ({route}) => {
       // let answer = [...questions.map(e => String(e.correctOption))];
       let questionid = [...questions.map(e => e.qid)];
       const config = {
-        headers: {Authorization: `Bearer ${token}`},
+        headers: { Authorization: `Bearer ${token}` },
       };
 
       const payload = {
@@ -250,7 +255,7 @@ const StartTest = ({route}) => {
       // return;
       const res = await axios.post('student/submit-result', payload, config);
       console.log('submit test res =>', res);
-
+      getTestSeriesCourseSubmodule(subModuleId)
       Alert.alert('Test Submitted Successfully');
 
       // navigation.pop();
@@ -292,7 +297,7 @@ const StartTest = ({route}) => {
             type={'R20'}
             adjustsFontSizeToFit
             numberOfLines={1}
-            style={{flex: 1}}
+            style={{ flex: 1 }}
             color="black">
             {route?.params?.name}
           </CText>
@@ -306,17 +311,17 @@ const StartTest = ({route}) => {
       </View>
       {questions.length ? (
         // <View style={{flex: 1}}>
-          <Questions
-            questions={questions}
-            onOptionSelect={handleOptionSelect}
-            pagerRef={pagerRef}
-            // questionNoRef={questionNoRef}
-            onViewableItemsChanged={onViewableItemsChanged}
-            viewabilityConfig={viewabilityConfig}
-            currentPagerIndex={currentPagerIndex}
-            setCurrentPagerIndex={setCurrentPagerIndex}
-            answers={testAttempt}
-          />
+        <Questions
+          questions={questions}
+          onOptionSelect={handleOptionSelect}
+          pagerRef={pagerRef}
+          // questionNoRef={questionNoRef}
+          onViewableItemsChanged={onViewableItemsChanged}
+          viewabilityConfig={viewabilityConfig}
+          currentPagerIndex={currentPagerIndex}
+          setCurrentPagerIndex={setCurrentPagerIndex}
+          answers={testAttempt}
+        />
         // {/* </View> */}
       ) : null}
       {questions.length ? (

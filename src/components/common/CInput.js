@@ -31,6 +31,7 @@ export default CInput = props => {
     insideLeftIcon,
     showError = true,
     rightAccessory,
+    containerStyle
   } = props;
 
   const colors = useSelector(state => state.theme.theme);
@@ -41,7 +42,7 @@ export default CInput = props => {
   };
 
   return (
-    <View style={styles.mv10}>
+    <View style={[styles.mv10, containerStyle]}>
       {label && (
         <View style={[localStyle.labelContainer, labelStyle]}>
           <View style={styles.flexRow}>

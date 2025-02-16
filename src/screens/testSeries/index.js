@@ -1,42 +1,46 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import colors from '../../styles/colors';
 import Header from '../../components/common/header/Header';
 import RegularText from '../../components/common/text/RegularText';
 import Image from '../../components/common/Image';
-import {ImagePaths} from '../../utils/imagePaths';
-import {spacing} from '../../styles/spacing';
-import {fontNames} from '../../styles/typography';
-import {textScale} from '../../styles/responsiveStyles';
+import { ImagePaths } from '../../utils/imagePaths';
+import { spacing } from '../../styles/spacing';
+import { fontNames } from '../../styles/typography';
+import { textScale } from '../../styles/responsiveStyles';
 import LinearGradient from 'react-native-linear-gradient';
-import {APP_PADDING_HORIZONTAL} from '../../themes/commonStyle';
+import { APP_PADDING_HORIZONTAL } from '../../themes/commonStyle';
 import commonStyle from '../../styles/commonStyles';
-import {useState} from 'react';
+import { useEffect, useState } from 'react';
 import TestSeriesAnalyticsModal from '../../components/modal/TestSeriesAnalyticsModal';
 import TestSeriesList from '../../components/module/TestSeriesList';
-import {useGetTestSeriesCourseQuery} from '../../redux/apis/testSeries.api';
-import {useNavigation} from '@react-navigation/native';
+import { useGetTestSeriesCourseQuery } from '../../redux/apis/testSeries.api';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import {
   SCREEN_TEST_SERIES_FOLDER,
   SCREEN_TEST_SERIES_RESULT,
 } from '../../utils/constants';
-import {StackNav} from '../../navigation/NavigationKeys';
+import { StackNav } from '../../navigation/NavigationKeys';
 import FullScreenLoading from '../../components/common/FullScreenLoading';
 
-const TestSeries = ({route}) => {
-  const {params} = route;
-  const {courseName, courseId} = params;
+const TestSeries = ({ route }) => {
+  const { params } = route;
+  const { courseName, courseId } = params;
 
   const navigation = useNavigation();
-
+  const isFocused = useIsFocused()
   const [showAnalyticsModal, setShowAnalyticsModal] = useState(false);
+console.log("params >>>", params);
 
   const {
     data: testSeriesRes,
-    isUninitialized,
     isLoading: isTestSeriesCourseLoading,
-    error,
+    refetch: refetchTestSeries,
   } = useGetTestSeriesCourseQuery(courseId);
-  console.log('message >>>', testSeriesRes?.analytics);
+  console.log('testSeriesRes >>>', JSON.stringify(testSeriesRes));
+
+  useEffect(() => {
+    if (isFocused) refetchTestSeries()
+  }, [isFocused])
 
   const onPressTestCategory = () => {
     setShowAnalyticsModal(true);
@@ -59,7 +63,7 @@ const TestSeries = ({route}) => {
   };
 
   const onPressResult = (qId, attempt, type) => {
-    navigation.navigate(SCREEN_TEST_SERIES_RESULT, {qId, attempt, type});
+    navigation.navigate(SCREEN_TEST_SERIES_RESULT, { qId, attempt, type });
   };
 
   return (
@@ -142,3 +146,44 @@ const styles = StyleSheet.create({
   },
 });
 export default TestSeries;
+
+
+let obj = {
+  "property_name": "Green Valley PG",
+  "owner_name": "Jagdish Sir",
+  "cell": "9868946576",
+  "city": "Jaipur",
+  "Establishment_Year" : "1996",
+  "Building_Type" : "Flat",
+  "Preferred_Tenants" : "family",
+  "location": [45.123, 47.232],
+  "room_type": [2, 3, 5],
+  "bed_details": [
+      {
+          "ground_no" : 0,
+          "rooms" : [
+              {"room_type" : 0, "occupied_rooms" : 1,"configurations" : {"bathRoom_Attached" : 1, "AC" : 1}},{"room_type" : 1, "occupied_rooms" : 2,"configurations" : {"bathRoom_Attached" : 0, "AC" : 1}},
+              {"room_type" : 0, "occupied_rooms" : 2,"configurations" : {"bathRoom_Attached" : 1, "AC" : 1}},
+              {"room_type" : 2, "occupied_rooms" : 3,"configurations" : {"bathRoom_Attached" : 0, "AC" : 1}}
+              ]
+      },
+      {
+          "ground_no" : 1,
+          "rooms" : [
+              {"room_type" : 1, "occupied_rooms" : 3,"configurations" : {"bathRoom_Attached" : 0, "AC" : 1}},{"room_type" : 2, "occupied_rooms" : 2,"configurations" : {"bathRoom_Attached" : 1, "AC" : 1}},
+              {"room_type" : 0, "occupied_rooms" : 1,"configurations" : {"bathRoom_Attached" : 1, "AC" : 1}},
+              {"room_type" : 2, "occupied_rooms" : 3,"configurations" : {"bathRoom_Attached" : 1, "AC" : 1}}
+              ]
+      },
+      {
+          "ground_no" : 2,
+          "rooms" : [
+              {"room_type" : 1, "occupied_rooms" : 3,"configurations" : {"bathRoom_Attached" : 0, "AC" : 1}},
+              {"room_type" : 0, "occupied_rooms" : 2,"configurations" : {"bathRoom_Attached" : 1, "AC" : 1}},
+              {"room_type" : 2, "occupied_rooms" : 4,"configurations" : {"bathRoom_Attached" : 1, "AC" : 1}},
+              {"room_type" : 2, "occupied_rooms" : 3,"configurations" : {"bathRoom_Attached" : 1, "AC" : 1}}
+            ]
+      }
+      
+  ]
+}
